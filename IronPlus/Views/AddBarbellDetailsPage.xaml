@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.AddBarbellDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+    xmlns:converters="clr-namespace:IronPlus.Converters"
+    xmlns:helpers="clr-namespace:IronPlus.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:numericInput="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:AddBarbellDetailsViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectionChangedEventArgsToIndex x:Key="SelectionChangedConverter" />
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:FocusEventArgsToBoolConverter x:Key="FocusChangedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <local:BasePage.BaseContent>
+        <StackLayout
+            Margin="16"
+            Spacing="8"
+            VerticalOptions="StartAndExpand">
+            <inputLayout:SfTextInputLayout
+                ErrorText="{Binding Name.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                HasError="{Binding Name.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                Hint="Name"
+                Style="{StaticResource BaseTextInputLayoutStyle}">
+                <Entry Style="{StaticResource BaseEntryStyle}" Text="{Binding Name.Value}">
+                    <Entry.Keyboard>
+                        <Keyboard x:FactoryMethod="Create">
+                            <x:Arguments>
+                                <KeyboardFlags>CapitalizeWord</KeyboardFlags>
+                            </x:Arguments>
+                        </Keyboard>
+                    </Entry.Keyboard>
+                    <Entry.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding ValidateNameCommand}" EventName="TextChanged" />
+                    </Entry.Behaviors>
+                </Entry>
+            </inputLayout:SfTextInputLayout>
+            <inputLayout:SfTextInputLayout
+                ErrorText="{Binding WeightInPounds.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                HasError="{Binding WeightInPounds.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                Hint="Weight in LB"
+                Style="{StaticResource BaseTextInputLayoutStyle}">
+                <numericInput:SfNumericEntry
+                    CustomFormat="0"
+                    Style="{StaticResource NumericInputStyle}"
+                    ValueChangeMode="OnKeyFocus"
+                    Value="{Binding WeightInPounds.Value}">
+                    <numericInput:SfNumericEntry.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding ValidateWeightInPoundsCommand}" EventName="ValueChanged" />
+                        <behaviors:EventToCommandBehavior
+                            Command="{Binding AutofillKilogramWeightCommand}"
+                            Converter="{StaticResource FocusChangedConverter}"
+                            EventName="FocusChanged" />
+                    </numericInput:SfNumericEntry.Behaviors>
+                </numericInput:SfNumericEntry>
+            </inputLayout:SfTextInputLayout>
+            <inputLayout:SfTextInputLayout
+                ErrorText="{Binding WeightInKilograms.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                HasError="{Binding WeightInKilograms.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                Hint="Weight in KG"
+                Style="{StaticResource BaseTextInputLayoutStyle}">
+                <numericInput:SfNumericEntry
+                    CustomFormat="0"
+                    Style="{StaticResource NumericInputStyle}"
+                    ValueChangeMode="OnKeyFocus"
+                    Value="{Binding WeightInKilograms.Value}">
+                    <numericInput:SfNumericEntry.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding ValidateWeightInKilogramsCommand}" EventName="ValueChanged" />
+                        <behaviors:EventToCommandBehavior
+                            Command="{Binding AutofillPoundWeightCommand}"
+                            Converter="{StaticResource FocusChangedConverter}"
+                            EventName="FocusChanged" />
+                    </numericInput:SfNumericEntry.Behaviors>
+                </numericInput:SfNumericEntry>
+            </inputLayout:SfTextInputLayout>
+            <Button
+                Command="{Binding SaveBarbellCommand}"
+                IsEnabled="{Binding IsInputValid}"
+                Style="{StaticResource BaseButtonStyle}"
+                Text="Save" />
+        </StackLayout>
+
+    </local:BasePage.BaseContent>
+</local:BasePage>

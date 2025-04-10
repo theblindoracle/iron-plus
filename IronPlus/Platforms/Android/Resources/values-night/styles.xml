@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <style name="MainTheme.Splash" parent="Theme.AppCompat">
+        <item name="android:windowBackground">@drawable/spash_screen_dark</item>
+    </style>
+</resources>

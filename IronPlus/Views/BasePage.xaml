@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="IronPlus.Views.BasePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:IronPlus.Controls"
+    xmlns:ios="clr-namespace:Microsoft.Maui.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Core"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    Title="{Binding Title}"
+    vm:ViewModelLocator.AutoWireViewModel="True"
+    x:DataType="vm:BaseViewModel"
+    BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundDark},
+                                      Light={StaticResource BackgroundLight}}">
+    <ContentPage.Content>
+        <Grid
+            HorizontalOptions="FillAndExpand"
+            RowDefinitions="1, *, 1"
+            VerticalOptions="FillAndExpand">
+            <controls:Divider Grid.Row="0" />
+            <Grid
+                x:Name="BaseContentGrid"
+                Grid.Row="1"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand" />
+            <controls:Divider Grid.Row="2" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

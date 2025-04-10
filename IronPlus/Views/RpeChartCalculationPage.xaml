@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.RpeChartCalculationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+    xmlns:controls="clr-namespace:IronPlus.Controls"
+    xmlns:converters="clr-namespace:IronPlus.Converters"
+    xmlns:helpers="clr-namespace:IronPlus.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:numericInput="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:numericUpDown="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:RpeChartCalculationViewModel">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding NavigateToHowToUseCommand}" Text="How To Use">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{DynamicResource FontAwesomeRegular}" Glyph="{x:Static helpers:FAIcons.QuestionMark}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <local:BasePage.BaseContent>
+        <ScrollView>
+
+            <Grid RowDefinitions="*, 3*">
+                <StackLayout>
+                    <StackLayout Spacing="8" VerticalOptions="CenterAndExpand">
+                        <Label
+                            HorizontalOptions="Center"
+                            Style="{StaticResource OverlineLabelStyle}"
+                            Text="PROJECTED WEIGHT"
+                            VerticalOptions="Center" />
+                        <Label
+                            FontSize="48"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource Header2LabelStyle}"
+                            Text="{Binding WantedSetWeight, StringFormat='{0:0.##}'}"
+                            VerticalOptions="Center" />
+
+                        <Label
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource BodyLabelStyle}"
+                            Text="{Binding E1RM, StringFormat='e1RM : {0:0.##}'}"
+                            TextColor="{AppThemeBinding Dark={StaticResource NeutralDark},
+                                                        Light={StaticResource NeutralLight}}"
+                            VerticalOptions="Center" />
+
+                    </StackLayout>
+
+                    <controls:Divider Inset="-16" />
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="1"
+                    Margin="16"
+                    Spacing="8">
+
+                    <Label
+                        Style="{StaticResource Header2LabelStyle}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Style="{StaticResource Header2LabelStyle}" Text="Completed Set " />
+                                <Span FontFamily="{StaticResource FontAwesomeRegular}" Text="{x:Static helpers:FAIcons.QuestionMark}" FontSize="20"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowCompletedSetHelperTextCommand}"
+                                                  NumberOfTapsRequired="1"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+
+                    <Label Text="A set that you have recently completed."
+                           IsVisible="{Binding ShowCompletedSetHelperText}"
+                           TextColor="{AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}"/>
+
+
+                    <Grid ColumnSpacing="16">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <inputLayout:SfTextInputLayout
+                            Grid.ColumnSpan="2"
+                            ErrorText="{Binding HaveWeight.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                            HasError="{Binding HaveWeight.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                            Hint="Weight"
+                            Style="{DynamicResource BaseTextInputLayoutStyle}">
+                            <numericInput:SfNumericEntry
+                                FormatString="n"
+                                SelectAllOnFocus="True"
+                                Style="{DynamicResource NumericInputStyle}"
+                                Value="{Binding HaveWeight.Value}">
+                                <numericInput:SfNumericEntry.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" />
+                                </numericInput:SfNumericEntry.Behaviors>
+                            </numericInput:SfNumericEntry>
+                        </inputLayout:SfTextInputLayout>
+
+
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            ErrorText="{Binding HaveReps.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                            HasError="{Binding HaveReps.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                            Hint="Reps"
+                            Style="{DynamicResource BaseTextInputLayoutStyle}">
+                            <numericInput:SfNumericEntry
+                                CustomFormat="0"
+                                Style="{DynamicResource NumericInputStyle}"
+                                Value="{Binding HaveReps.Value}">
+                                <numericInput:SfNumericEntry.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" />
+                                </numericInput:SfNumericEntry.Behaviors>
+                            </numericInput:SfNumericEntry>
+                        </inputLayout:SfTextInputLayout>
+
+                        <inputLayout:SfTextInputLayout
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            ErrorText="{Binding HaveRpe.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                            HasError="{Binding HaveRpe.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                            Hint="RPE"
+                            Style="{DynamicResource BaseTextInputLayoutStyle}">
+                            <numericInput:SfNumericEntry
+                                CustomFormat="0.0"
+                                Style="{DynamicResource NumericInputStyle}"
+                                Value="{Binding HaveRpe.Value}">
+                                <numericInput:SfNumericEntry.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" />
+                                </numericInput:SfNumericEntry.Behaviors>
+                            </numericInput:SfNumericEntry>
+                        </inputLayout:SfTextInputLayout>
+                    </Grid>
+
+                    <Label
+                        Style="{StaticResource Header2LabelStyle}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Style="{StaticResource Header2LabelStyle}" Text="Target Set " />
+                                <Span FontFamily="{StaticResource FontAwesomeRegular}" Text="{x:Static helpers:FAIcons.QuestionMark}" FontSize="20"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowTargetSetHelperTextCommand}"
+                                                  NumberOfTapsRequired="1"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="The prescribed set that you are looking for."
+                           IsVisible="{Binding ShowTargetSetHelperText}"
+                           TextColor="{AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}"/>
+                    <StackLayout>
+                        <inputLayout:SfTextInputLayout Hint="Reps" Style="{StaticResource BaseTextInputLayoutStyle}">
+                            <numericUpDown:SfNumericEntry
+                                CustomFormat="0"
+                                Maximum="12"
+                                Minimum="1"
+                                SpinButtonAlignment="Both"
+                                Style="{StaticResource UpDownStyle}"
+                                TextAlignment="Center"
+                                Value="{Binding WantReps.Value}">
+                                <numericUpDown:SfNumericUpDown.DecrementButtonSettings>
+                                    <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretDown}" Style="{StaticResource UpDownButtonSettingsStyle}" />
+                                </numericUpDown:SfNumericUpDown.DecrementButtonSettings>
+                                <numericUpDown:SfNumericUpDown.IncrementButtonSettings>
+                                    <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretUp}" Style="{StaticResource UpDownButtonSettingsStyle}" />
+                                </numericUpDown:SfNumericUpDown.IncrementButtonSettings>
+                                <numericUpDown:SfNumericUpDown.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" />
+                                </numericUpDown:SfNumericUpDown.Behaviors>
+                            </numericUpDown:SfNumericUpDown>
+                        </inputLayout:SfTextInputLayout>
+
+                        <inputLayout:SfTextInputLayout Hint="RPE" Style="{StaticResource BaseTextInputLayoutStyle}">
+                            <numericUpDown:SfNumericUpDown
+                                FormatString="0.0"
+                                Maximum="10"
+                                Minimum="5"
+                                SelectAllOnFocus="True"
+                                SpinButtonAlignment="Both"
+                                StepValue="0.5"
+                                Style="{StaticResource UpDownStyle}"
+                                TextAlignment="Center"
+                                Value="{Binding WantRpe.Value}">
+                                <numericUpDown:SfNumericUpDown.DecrementButtonSettings>
+                                    <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretDown}" Style="{StaticResource UpDownButtonSettingsStyle}" />
+                                </numericUpDown:SfNumericUpDown.DecrementButtonSettings>
+                                <numericUpDown:SfNumericUpDown.IncrementButtonSettings>
+                                    <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretUp}" Style="{StaticResource UpDownButtonSettingsStyle}" />
+                                </numericUpDown:SfNumericUpDown.IncrementButtonSettings>
+                                <numericUpDown:SfNumericUpDown.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" />
+                                </numericUpDown:SfNumericUpDown.Behaviors>
+                            </numericUpDown:SfNumericUpDown>
+                        </inputLayout:SfTextInputLayout>
+
+                    </StackLayout>
+
+                </StackLayout>
+            </Grid>
+        </ScrollView>
+    </local:BasePage.BaseContent>
+</local:BasePage>

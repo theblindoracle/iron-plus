@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.RPEChartSettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:RPEChartSettingsViewModel">
+    <local:BasePage.BaseContent>
+        <StackLayout Margin="16">
+            <StackLayout
+                RadioButtonGroup.GroupName="Rounding Options"
+                RadioButtonGroup.SelectedValue="{Binding SelectedValue, Mode=TwoWay}"
+                Spacing="8">
+                <Label Style="{StaticResource Header2LabelStyle}" Text="Round value to the nearest:" />
+                <RadioButton Style="{StaticResource BaseRadioButtonTheme}">
+                    <RadioButton.Value>
+                        <x:Double>0</x:Double>
+                    </RadioButton.Value>
+                    <RadioButton.Content>
+                        <Label Style="{StaticResource HeaderLabelStyle}" Text="Don't Round" />
+                    </RadioButton.Content>
+                    <RadioButton.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedValue}"
+                            TargetType="RadioButton"
+                            Value="0">
+                            <Setter Property="IsChecked" Value="True" />
+                        </DataTrigger>
+                    </RadioButton.Triggers>
+                    <RadioButton.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding UpdateRpeChartRoundSettingCommand}" EventName="CheckedChanged" />
+                    </RadioButton.Behaviors>
+                </RadioButton>
+                <RadioButton Style="{StaticResource BaseRadioButtonTheme}">
+                    <RadioButton.Value>
+                        <x:Double>1</x:Double>
+                    </RadioButton.Value>
+                    <RadioButton.Content>
+                        <Label Style="{StaticResource HeaderLabelStyle}" Text="1" />
+                    </RadioButton.Content>
+                    <RadioButton.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedValue}"
+                            TargetType="RadioButton"
+                            Value="1">
+                            <Setter Property="IsChecked" Value="True" />
+                        </DataTrigger>
+                    </RadioButton.Triggers>
+                    <RadioButton.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding UpdateRpeChartRoundSettingCommand}" EventName="CheckedChanged" />
+                    </RadioButton.Behaviors>
+                </RadioButton>
+
+                <RadioButton Style="{StaticResource BaseRadioButtonTheme}">
+                    <RadioButton.Value>
+                        <x:Double>2.5</x:Double>
+                    </RadioButton.Value>
+                    <RadioButton.Content>
+                        <Label Style="{StaticResource HeaderLabelStyle}" Text="2.5" />
+                    </RadioButton.Content>
+                    <RadioButton.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedValue}"
+                            TargetType="RadioButton"
+                            Value="2.5">
+                            <Setter Property="IsChecked" Value="True" />
+                        </DataTrigger>
+                    </RadioButton.Triggers>
+                    <RadioButton.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding UpdateRpeChartRoundSettingCommand}" EventName="CheckedChanged" />
+                    </RadioButton.Behaviors>
+                </RadioButton>
+
+                <RadioButton Style="{StaticResource BaseRadioButtonTheme}">
+                    <RadioButton.Value>
+                        <x:Double>5</x:Double>
+                    </RadioButton.Value>
+                    <RadioButton.Content>
+                        <Label Style="{StaticResource HeaderLabelStyle}" Text="5" />
+                    </RadioButton.Content>
+                    <RadioButton.Triggers>
+                        <DataTrigger
+                            Binding="{Binding SelectedValue}"
+                            TargetType="RadioButton"
+                            Value="5">
+                            <Setter Property="IsChecked" Value="True" />
+                        </DataTrigger>
+                    </RadioButton.Triggers>
+                    <RadioButton.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding UpdateRpeChartRoundSettingCommand}" EventName="CheckedChanged" />
+                    </RadioButton.Behaviors>
+                </RadioButton>
+            </StackLayout>
+        </StackLayout>
+    </local:BasePage.BaseContent>
+</local:BasePage>

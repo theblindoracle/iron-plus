@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+	</array>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+	</array>
+	<key>MinimumOSVersion</key>
+	<string>11.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>Iron Plus</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.napesdotnet.ironplus</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>CFBundleName</key>
+	<string>IronSport</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Questrial-Regular.ttf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>FontAwesome5Solid900.otf</string>
+		<string>FontAwesome5Regular400.otf</string>
+		<string>Rubik-Bold.ttf</string>
+		<string>FontAwesome5BrandsRegular400.otf</string>
+		<string>Rubik-Medium.ttf</string>
+	</array>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>CFBundleVersion</key>
+	<string>999</string>
+	<key>CFBundleShortVersionString</key>
+	<string>9.9</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+</dict>
+</plist>

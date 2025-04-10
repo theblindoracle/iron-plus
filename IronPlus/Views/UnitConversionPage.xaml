@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.UnitConversionPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+   xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:controls="clr-namespace:IronPlus.Controls"
+    xmlns:converters="clr-namespace:IronPlus.Converters"
+    xmlns:helpers="clr-namespace:IronPlus.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:numericInput="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:UnitConversionViewModel">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding NavigateToHowToUseCommand}" Text="How To Use">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{DynamicResource FontAwesomeRegular}" Glyph="{x:Static helpers:FAIcons.QuestionMark}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectionChangedEventArgsToIndex x:Key="SelectionChangedConverter" />
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:BarbellsToSfSegmentItemsConverter x:Key="BarbellsToSfSegmentItemsConverter" />
+            <converters:IsBarbellSegmentControlVisibleConverter x:Key="IsBarbellSegmentControlVisibleConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <local:BasePage.BaseContent>
+        <ScrollView>
+
+            <Grid Padding="16" RowDefinitions="Auto,*">
+                <StackLayout>
+                    <StackLayout
+                        Margin="0,0,0,8"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Label
+                            FontFamily="{StaticResource RubikMedium}"
+                            FontSize="35"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource HeaderLabelStyle}"
+                            VerticalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}{0} {1}">
+                                    <Binding Path="ConvertedValueRounded" />
+                                    <Binding Path="ConvertToSuffix" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+                        <Label
+                            FontSize="18"
+                            HorizontalOptions="Center"
+                            Style="{StaticResource BodyLabelStyle}"
+                            TextColor="{AppThemeBinding Dark={StaticResource NeutralDark},
+                                                        Light={StaticResource NeutralLight}}"
+                            VerticalOptions="Center">
+                            <Label.Text>
+                                <MultiBinding StringFormat="{}({0:0.##} {1})">
+                                    <Binding Path="ConvertedValueRoundedConvertedBack" />
+                                    <Binding Path="ConvertFromSuffix" />
+                                </MultiBinding>
+                            </Label.Text>
+                        </Label>
+
+                    </StackLayout>
+
+                    <controls:WeightPlateView
+                        Margin="0,8"
+                        BarbellWeight="{Binding SelectedBarbellWeight}"
+                        IsKilograms="{Binding IsConvertToKilograms}"
+                        IsUsingCompetitionCollar="{Binding IsUsingCompetitionCollar}"
+                        Weight="{Binding ConvertedValueRounded}" />
+
+
+                </StackLayout>
+
+                <StackLayout
+                    Grid.Row="1"
+                    Margin="0,8,0,0"
+                    Spacing="8">
+                    <controls:Divider Inset="-16" />
+                    <StackLayout>
+                        <Label Style="{StaticResource Header2LabelStyle}" Text="Value To Convert" />
+                        <inputLayout:SfTextInputLayout
+                            ErrorText="{Binding ValueToConvert.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                            HasError="{Binding ValueToConvert.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                            Style="{DynamicResource BaseTextInputLayoutStyle}">
+                            <numericInput:SfNumericEntry
+                                CustomFormat="{Binding ConvertFromSuffix}"
+                                Style="{DynamicResource NumericInputStyle}"
+                                Value="{Binding ValueToConvert.Value}">
+                                <numericInput:SfNumericEntry.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateConvertedValuesCommand}" EventName="ValueChanged" />
+                                </numericInput:SfNumericEntry.Behaviors>
+                            </numericInput:SfNumericEntry>
+                        </inputLayout:SfTextInputLayout>
+
+                    </StackLayout>
+
+
+                    <buttons:SfSegmentedControl
+                        ItemsSource="{Binding ConversionToggleList}"
+                        SelectedIndex="{Binding ConversionTypeControlIndex}"
+                        Style="{DynamicResource SegmentedControlStyle}"
+                        VisibleSegmentsCount="2">
+                        <buttons:SfSegmentedControl.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                Command="{Binding UpdateConversionTypeCommand}"
+                                Converter="{StaticResource SelectionChangedConverter}"
+                                EventName="SelectionChanged" />
+                        </buttons:SfSegmentedControl.Behaviors>
+                    </buttons:SfSegmentedControl>
+
+                    <buttons:SfSegmentedControl
+                        ItemsSource="{Binding CollarToggleList}"
+                        SelectedIndex="{Binding CollarControlIndex}"
+                        Style="{DynamicResource SegmentedControlStyle}"
+                        VisibleSegmentsCount="2">
+                        <buttons:SfSegmentedControl.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                Command="{Binding UpdateIsUsingCompetitionCollarCommand}"
+                                Converter="{StaticResource SelectionChangedConverter}"
+                                EventName="SelectionChanged" />
+                        </buttons:SfSegmentedControl.Behaviors>
+                    </buttons:SfSegmentedControl>
+
+                    <buttons:SfSegmentedControl
+                        IsVisible="{Binding Barbells, Converter={StaticResource IsBarbellSegmentControlVisibleConverter}}"
+                        ItemsSource="{Binding Barbells, Converter={StaticResource BarbellsToSfSegmentItemsConverter}}"
+                        SelectedIndex="{Binding BarbellControlIndex}"
+                        Style="{DynamicResource SegmentedControlStyle}"
+                        VisibleSegmentsCount="{Binding Barbells.Count}">
+                        <buttons:SfSegmentedControl.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                Command="{Binding UpdateSelectedBarbellCommand}"
+                                Converter="{StaticResource SelectionChangedConverter}"
+                                EventName="SelectionChanged" />
+                        </buttons:SfSegmentedControl.Behaviors>
+                    </buttons:SfSegmentedControl>
+
+                </StackLayout>
+
+            </Grid>
+        </ScrollView>
+
+    </local:BasePage.BaseContent>
+</local:BasePage>

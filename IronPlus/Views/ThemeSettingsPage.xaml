@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.ThemeSettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+    xmlns:helpers="clr-namespace:IronPlus.Helpers"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:ThemeSettingsViewModel">
+
+    <local:BasePage.BaseContent>
+        <StackLayout
+            Margin="16"
+            RadioButtonGroup.GroupName="Theme Options"
+            RadioButtonGroup.SelectedValue="{Binding SelectedTheme, Mode=TwoWay}"
+            Spacing="8"
+            VerticalOptions="StartAndExpand">
+
+            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static AppTheme.Unspecified}">
+                <RadioButton.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding UpdateThemeCommand}" EventName="CheckedChanged" />
+                </RadioButton.Behaviors>
+                <RadioButton.Content>
+                    <Grid ColumnDefinitions="*,4*">
+                        <Image HorizontalOptions="Center" Scale="0.75">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesome}"
+                                    Glyph="{x:Static helpers:FAIcons.System}"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}" />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource HeaderLabelStyle}"
+                            Text="System"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </RadioButton.Content>
+                <RadioButton.Triggers>
+                    <DataTrigger
+                        Binding="{Binding SelectedTheme}"
+                        TargetType="RadioButton"
+                        Value="{x:Static AppTheme.Unspecified}">
+                        <Setter Property="IsChecked" Value="True" />
+                    </DataTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
+
+            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static AppTheme.Light}">
+                <RadioButton.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding UpdateThemeCommand}" EventName="CheckedChanged" />
+                </RadioButton.Behaviors>
+                <RadioButton.Content>
+                    <Grid ColumnDefinitions="*,4*">
+                        <Image HorizontalOptions="Center" Scale="0.75">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesome}"
+                                    Glyph="{x:Static helpers:FAIcons.Sun}"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}" />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource HeaderLabelStyle}"
+                            Text="Light"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </RadioButton.Content>
+                <RadioButton.Triggers>
+                    <DataTrigger
+                        Binding="{Binding SelectedTheme}"
+                        TargetType="RadioButton"
+                        Value="{x:Static AppTheme.Light}">
+                        <Setter Property="IsChecked" Value="True" />
+                    </DataTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
+
+            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static AppTheme.Dark}">
+                <RadioButton.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding UpdateThemeCommand}" EventName="CheckedChanged" />
+                </RadioButton.Behaviors>
+                <RadioButton.Content>
+                    <Grid ColumnDefinitions="*,4*">
+                        <Image HorizontalOptions="Center" Scale="0.75">
+                            <Image.Source>
+                                <FontImageSource
+                                    FontFamily="{StaticResource FontAwesome}"
+                                    Glyph="{x:Static helpers:FAIcons.Moon}"
+                                    Color="{AppThemeBinding Dark={StaticResource OnBackgroundDark},
+                                                            Light={StaticResource OnBackgroundLight}}" />
+                            </Image.Source>
+                        </Image>
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource HeaderLabelStyle}"
+                            Text="Dark"
+                            VerticalOptions="Center" />
+                    </Grid>
+                </RadioButton.Content>
+                <RadioButton.Triggers>
+                    <DataTrigger
+                        Binding="{Binding SelectedTheme}"
+                        TargetType="RadioButton"
+                        Value="{x:Static AppTheme.Dark}">
+                        <Setter Property="IsChecked" Value="True" />
+                    </DataTrigger>
+                </RadioButton.Triggers>
+            </RadioButton>
+        </StackLayout>
+    </local:BasePage.BaseContent>
+</local:BasePage>

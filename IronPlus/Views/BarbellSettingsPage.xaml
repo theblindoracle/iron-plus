@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.BarbellSettingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:IronPlus.Controls"
+    xmlns:helpers="clr-namespace:IronPlus.Helpers"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:models="clr-namespace:IronPlus.Models"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:BarbellSettingsViewModel">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddBarbellCommand}" Text="Add Barbell">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{StaticResource FontAwesome}" Glyph="{x:Static helpers:FAIcons.Plus}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style
+                x:Key="CollectionViewLabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <local:BasePage.BaseContent>
+        <StackLayout VerticalOptions="StartAndExpand">
+            <CollectionView ItemsSource="{Binding Barbells}">
+                <CollectionView.Header>
+                    <Grid ColumnDefinitions="3*,2*,2*,2*,2*" RowDefinitions="*, 1">
+                        <Label
+                            Grid.Column="0"
+                            Margin="16"
+                            Style="{StaticResource CollectionViewLabelStyle}"
+                            Text="Bar" />
+                        <Label
+                            Grid.Column="1"
+                            Style="{StaticResource CollectionViewLabelStyle}"
+                            Text="LB" />
+                        <Label
+                            Grid.Column="2"
+                            Style="{StaticResource CollectionViewLabelStyle}"
+                            Text="KG" />
+                        <controls:Divider Grid.Row="1" Grid.ColumnSpan="5" />
+                    </Grid>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Barbell">
+                        <Grid Margin="8,16" ColumnDefinitions="3*,2*,2*,2*,2*">
+                            <Label
+                                Grid.Column="0"
+                                Style="{StaticResource CollectionViewLabelStyle}"
+                                Text="{Binding Name}" />
+                            <Label
+                                Grid.Column="1"
+                                Style="{StaticResource CollectionViewLabelStyle}"
+                                Text="{Binding WeightInPounds}" />
+                            <Label
+                                Grid.Column="2"
+                                Style="{StaticResource CollectionViewLabelStyle}"
+                                Text="{Binding WeightInKilograms}" />
+                            <ImageButton
+                                Grid.Column="3"
+                                BackgroundColor="Transparent"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BarbellSettingsViewModel}}, Path=EditBarbellCommand}"
+                                CommandParameter="{Binding .}"
+                                Scale=".5">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        FontFamily="{StaticResource FontAwesome}"
+                                        Glyph="{x:Static helpers:FAIcons.Pencil}"
+                                        Color="{AppThemeBinding Light={StaticResource OnBackgroundLight},
+                                                                Dark={StaticResource OnBackgroundDark}}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                            <ImageButton
+                                Grid.Column="4"
+                                BackgroundColor="Transparent"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BarbellSettingsViewModel}}, Path=RemoveBarbellCommand}"
+                                CommandParameter="{Binding .}"
+                                Scale=".5">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        FontFamily="{StaticResource FontAwesome}"
+                                        Glyph="{x:Static helpers:FAIcons.TrashCan}"
+                                        Color="{AppThemeBinding Light={StaticResource OnBackgroundLight},
+                                                                Dark={StaticResource OnBackgroundDark}}" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                        <Label
+                            Margin="16"
+                            HorizontalOptions="CenterAndExpand"
+                            Style="{StaticResource CollectionViewLabelStyle}"
+                            Text="You do not have any custom barbells."
+                            VerticalOptions="Center" />
+                    </StackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </StackLayout>
+    </local:BasePage.BaseContent>
+</local:BasePage>

@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.WarmUpCalculationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+   xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+    xmlns:controls="clr-namespace:IronPlus.Controls"
+    xmlns:converters="clr-namespace:IronPlus.Converters"
+    xmlns:helpers="clr-namespace:IronPlus.Helpers"
+    xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:models="clr-namespace:IronPlus.Models"
+    xmlns:numericInput="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:WarmUpCalculationViewModel">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding NavigateToHowToUseCommand}" Text="How To Use">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="{DynamicResource FontAwesomeRegular}" Glyph="{x:Static helpers:FAIcons.QuestionMark}" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectionChangedEventArgsToIndex x:Key="SelectionChangedConverter" />
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:BarbellsToSfSegmentItemsConverter x:Key="BarbellsToSfSegmentItemsConverter" />
+            <converters:IsBarbellSegmentControlVisibleConverter x:Key="IsBarbellSegmentControlVisibleConverter" />
+
+            <Style
+                x:Key="WarmUpChartHeaderLabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+
+            <Style
+                x:Key="WarmUpChartUnitLabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <local:BasePage.BaseContent>
+        <Grid RowDefinitions="Auto, *">
+            <StackLayout Spacing="16">
+                <StackLayout Margin="16,16,16,0" Spacing="8">
+                    <Label
+                        Style="{StaticResource Header2LabelStyle}"
+                        Text="Top Set Weight"/>
+
+                    <inputLayout:SfTextInputLayout
+                        ErrorText="{Binding TopSetWeight.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        HasError="{Binding TopSetWeight.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{DynamicResource BaseTextInputLayoutStyle}">
+                        <numericInput:SfNumericEntry
+                            CustomFormat="n"
+                            Minimum="1"
+                            Style="{DynamicResource NumericInputStyle}"
+                            Value="{Binding TopSetWeight.Value, Mode=TwoWay}">
+                            <numericInput:SfNumericEntry.Behaviors>
+                                <behaviors:EventToCommandBehavior Command="{Binding CalculateWarmUpWeightCommand}" EventName="ValueChanged" />
+                            </numericInput:SfNumericEntry.Behaviors>
+                        </numericInput:SfNumericEntry>
+                    </inputLayout:SfTextInputLayout>
+
+                    <buttons:SfSegmentedControl
+                        ItemsSource="{Binding UnitTypeList}"
+                        Style="{DynamicResource SegmentedControlStyle}"
+                        VisibleSegmentsCount="2"
+                        SelectedIndex="{Binding SelectedConverstionTypeIndex}">
+                        <buttons:SfSegmentedControl.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                Command="{Binding UpdateUnitTypeCommand}"
+                                Converter="{StaticResource SelectionChangedConverter}"
+                                EventName="SelectionChanged" />
+                        </buttons:SfSegmentedControl.Behaviors>
+                    </buttons:SfSegmentedControl>
+
+                    <buttons:SfSegmentedControl
+                        ItemsSource="{Binding CompetitionCollarOptions}"
+                        Style="{DynamicResource SegmentedControlStyle}"
+                        VisibleSegmentsCount="2"
+                        SelectedIndex="{Binding SelectedCompetitionCollarIndex}">
+                        <buttons:SfSegmentedControl.Behaviors>
+                            <behaviors:EventToCommandBehavior
+                                Command="{Binding UpdateIsUsingCompititionCollarCommand}"
+                                Converter="{StaticResource SelectionChangedConverter}"
+                                EventName="SelectionChanged" />
+                        </buttons:SfSegmentedControl.Behaviors>
+                    </buttons:SfSegmentedControl>
+
+                    <buttons:SfSegmentedControl
+                        IsVisible="{Binding Barbells, Converter={StaticResource IsBarbellSegmentControlVisibleConverter}}"
+                        ItemsSource="{Binding Barbells, Converter={StaticResource BarbellsToSfSegmentItemsConverter}}"
+                        Style="{DynamicResource SegmentedControlStyle}"
+                        VisibleSegmentsCount="{Binding Barbells.Count}"
+                        SelectedIndex="{Binding SelectedBarbellIndex}">
+                    <buttons:SfSegmentedControl.Behaviors>
+                        <behaviors:EventToCommandBehavior
+                            Command="{Binding UpdateSelectedBarbellCommand}"
+                            Converter="{StaticResource SelectionChangedConverter}"
+                            EventName="SelectionChanged" />
+                    </buttons:SfSegmentedControl.Behaviors>
+                </buttons:SfSegmentedControl>
+                </StackLayout>
+                <StackLayout>
+                    <controls:Divider />
+                    <Grid Margin="12" ColumnDefinitions="*,*,Auto">
+                        <Label
+                            Grid.Column="0"
+                            Style="{DynamicResource WarmUpChartHeaderLabelStyle}"
+                            Text="Weight" />
+                        <Label
+                            Grid.Column="1"
+                            Style="{DynamicResource WarmUpChartHeaderLabelStyle}"
+                            Text="Added" />
+                        <Label
+                            Grid.Column="2"
+                            Margin="0,0,8,0"
+                            FontFamily="{DynamicResource FontAwesome}"
+                            Style="{StaticResource WarmUpChartHeaderLabelStyle}"
+                            Text="{x:Static helpers:FAIcons.CaretRight}"
+                            TextColor="Transparent" />
+                    </Grid>
+                    <controls:Divider />
+                </StackLayout>
+            </StackLayout>
+            <CollectionView Grid.Row="1" ItemsSource="{Binding WarmUpWeights}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:WarmUpWeight">
+                        <StackLayout>
+                            <Grid Margin="12" ColumnDefinitions="*,*,Auto">
+                                <Label
+                                    Grid.Column="0"
+                                    Style="{DynamicResource WarmUpChartUnitLabelStyle}"
+                                    Text="{Binding Weight}" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    Style="{DynamicResource WarmUpChartUnitLabelStyle}"
+                                    Text="{Binding WeightAdded, StringFormat='+{0}'}" />
+
+                                <Label
+                                    Grid.Column="2"
+                                    Margin="0,0,8,0"
+                                    FontFamily="{DynamicResource FontAwesome}"
+                                    Style="{StaticResource WarmUpChartHeaderLabelStyle}"
+                                    Text="{x:Static helpers:FAIcons.CaretRight}" />
+
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:WarmUpCalculationViewModel}}, Path=NavigateToConversionPageCommand}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                            <controls:Divider />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </local:BasePage.BaseContent>
+</local:BasePage>

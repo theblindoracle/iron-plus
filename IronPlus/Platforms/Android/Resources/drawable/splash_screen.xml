@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item>
+    <color android:color="@color/splash_background" />
+  </item>
+    <item
+        android:height="320dp"
+        android:width="320dp"
+        android:gravity="center">
+        <bitmap android:src="@drawable/deadlifticonlight" android:gravity="fill" />
+    </item>
+</layer-list>

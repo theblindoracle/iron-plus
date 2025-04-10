@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<local:BasePage
+    x:Class="IronPlus.Views.ShowSpecificWeightPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:IronPlus.Behaviors"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:controls="clr-namespace:IronPlus.Controls"
+    xmlns:converters="clr-namespace:IronPlus.Converters"
+    xmlns:local="clr-namespace:IronPlus.Views"
+    xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    x:DataType="vm:ShowSpecificWeightViewModel">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:SelectionChangedEventArgsToIndex x:Key="SelectionChangedConverter" />
+            <converters:BarbellsToSfSegmentItemsConverter x:Key="BarbellsToSfSegmentItemsConverter" />
+            <converters:IsBarbellSegmentControlVisibleConverter x:Key="IsBarbellSegmentControlVisibleConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <local:BasePage.BaseContent>
+        <StackLayout
+            Padding="16"
+            Spacing="8"
+            VerticalOptions="StartAndExpand">
+
+             <StackLayout
+                        Padding="16"
+                        Spacing="8"
+                        VerticalOptions="StartAndExpand">
+                    <Label
+                        FontFamily="{StaticResource RubikMedium}"
+                        FontSize="35"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource HeaderLabelStyle}"
+                        VerticalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}{0} {1}">
+                                <Binding Path="Weight" />
+                                <Binding Path="WeightSuffix" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+                    <Label
+                        FontSize="18"
+                        HorizontalOptions="Center"
+                        Style="{StaticResource BodyLabelStyle}"
+                        TextColor="{AppThemeBinding Dark={StaticResource NeutralDark},
+                                                    Light={StaticResource NeutralLight}}"
+                        VerticalOptions="Center">
+                        <Label.Text>
+                            <MultiBinding StringFormat="{}({0:0.##} {1})">
+                                <Binding Path="ConvertedValue" />
+                                <Binding Path="ConvertedSuffix" />
+                            </MultiBinding>
+                        </Label.Text>
+                    </Label>
+
+                </StackLayout>
+            <controls:WeightPlateView
+                Margin="0,8"
+                BarbellWeight="{Binding BarbellWeight}"
+                HorizontalOptions="CenterAndExpand"
+                IsKilograms="{Binding IsKilograms}"
+                IsUsingCompetitionCollar="{Binding IsUsingCompetitionCollar}"
+                VerticalOptions="CenterAndExpand"
+                Weight="{Binding Weight}" />
+
+
+            <!--<buttons:SfSegmentedControl
+                ItemsSource="{Binding CollarToggleList}"
+                SelectedIndex="{Binding CollarControlIndex}"
+                Style="{DynamicResource SegmentedControlStyle}"
+                VisibleSegmentsCount="2">
+                <buttons:SfSegmentedControl.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        Command="{Binding UpdateIsUsingCompetitionCollarCommand}"
+                        Converter="{StaticResource SelectionChangedConverter}"
+                        EventName="SelectionChanged" />
+                </buttons:SfSegmentedControl.Behaviors>
+            </buttons:SfSegmentedControl>
+
+            <buttons:SfSegmentedControl
+                IsVisible="{Binding Barbells, Converter={StaticResource IsBarbellSegmentControlVisibleConverter}}"
+                ItemsSource="{Binding Barbells, Converter={StaticResource BarbellsToSfSegmentItemsConverter}}"
+                SelectedIndex="{Binding BarbellControlIndex}"
+                Style="{DynamicResource SegmentedControlStyle}"
+                VisibleSegmentsCount="{Binding Barbells.Count}">
+                <buttons:SfSegmentedControl.Behaviors>
+                    <behaviors:EventToCommandBehavior
+                        Command="{Binding UpdateSelectedBarbellCommand}"
+                        Converter="{StaticResource SelectionChangedConverter}"
+                        EventName="SelectionChanged" />
+                </buttons:SfSegmentedControl.Behaviors>
+            </buttons:SfSegmentedControl>-->
+        </StackLayout>
+    </local:BasePage.BaseContent>
+</local:BasePage>
