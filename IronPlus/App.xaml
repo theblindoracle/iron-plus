@@ -1,14 +1,341 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:IronPlus"
-             x:Class="IronPlus.App">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application
+    x:Class="IronPlus.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:core="http://schemas.syncfusion.com/maui"
+    mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="PrimaryLight">#f96f6e</Color>
+            <Color x:Key="PrimaryDisabledLight">#61f96f6e</Color>
+            <Color x:Key="BackgroundLight">#f5f5f5</Color>
+            <Color x:Key="ErrorLight">#c67525</Color>
+            <Color x:Key="NavigationPrimaryLight">#e0e0e0</Color>
+            <Color x:Key="NavigationStatusBarLight">#b9b9b9</Color>
+            <Color x:Key="PrimaryBackgroundLight">#61f96f6e</Color>
+            <Color x:Key="DialogBackgroundLight">#e7e7e7</Color>
+            <Color x:Key="UnselectedLight">#de000000</Color>
+            <Color x:Key="NeutralLight">#606060</Color>
+
+            <Color x:Key="OnPrimaryLight">#000000</Color>
+            <Color x:Key="OnPrimaryDisabledLight">#61000000</Color>
+            <Color x:Key="OnBackgroundLight">#000000</Color>
+            <Color x:Key="OnErrorLight">#FFFFFF</Color>
+            <Color x:Key="OnNavigationPrimaryLight">#000000</Color>
+            <Color x:Key="OnNavigationPrimaryUnselectedLight">#AB000000</Color>
+            <Color x:Key="OnDialogBackgroundLight">#000000</Color>
+            <Color x:Key="OnPrimaryBackgroundLight">#FFFFFF</Color>
+
+
+
+
+            <Color x:Key="PrimaryDark">#E57373</Color>
+            <Color x:Key="PrimaryDisabledDark">#606060</Color>
+            <Color x:Key="BackgroundDark">#262626</Color>
+            <Color x:Key="ErrorDark">#fc9930</Color>
+            <Color x:Key="NavigationPrimaryDark">#2d2d2d</Color>
+            <Color x:Key="NavigationStatusBarDark">#020202</Color>
+            <Color x:Key="PrimaryBackgroundDark">#753a3a</Color>
+            <Color x:Key="DialogBackgroundDark">#373737</Color>
+            <Color x:Key="UnselectedDark">#DEFFFFFF</Color>
+            <Color x:Key="NeutralDark">#e0e0e0</Color>
+
+
+            <Color x:Key="OnPrimaryDark">#FFFFFF</Color>
+            <Color x:Key="OnPrimaryDisabledDark">#61FFFFFF</Color>
+            <Color x:Key="OnBackgroundDark">#FFFFFF</Color>
+            <Color x:Key="OnErrorDark">#000000</Color>
+            <Color x:Key="OnNavigationPrimaryDark">#FFFFFF</Color>
+            <Color x:Key="OnNavigationPrimaryUnselectedDark">#ABFFFFFF</Color>
+            <Color x:Key="OnDialogBackgroundDark">#FFFFFF</Color>
+            <Color x:Key="OnPrimaryBackgroundDark">#FFFFFF</Color>
+
+
+            <SolidColorBrush x:Key="PrimaryLightBrush" Color="{StaticResource PrimaryLight}" />
+            <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}" />
+            <SolidColorBrush x:Key="DialogBackgroundLightBrush" Color="{StaticResource DialogBackgroundLight}" />
+            <SolidColorBrush x:Key="DialogBackgroundDarkBrush" Color="{StaticResource DialogBackgroundDark}" />
+
+
+
+            <OnPlatform x:Key="Questrial" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Questrial-Regular.ttf#Questrial" />
+                <On Platform="iOS" Value="Questrial" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="Rubik" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Rubik-Regular.ttf#Rubik" />
+                <On Platform="iOS" Value="Rubik" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="RubikMedium" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Rubik-Medium.ttf#Rubik" />
+                <On Platform="iOS" Value="Rubik Medium" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="RubikBold" x:TypeArguments="x:String">
+                <On Platform="Android" Value="Rubik-Bold.ttf#Rubik" />
+                <On Platform="iOS" Value="Rubik Bold" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="FontAwesome" x:TypeArguments="x:String">
+                <On Platform="Android" Value="FontAwesome5Solid900.otf#Font Awesome 5 Free" />
+                <On Platform="iOS" Value="FontAwesome5Free-Solid" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="FontAwesomeRegular" x:TypeArguments="x:String">
+                <On Platform="Android" Value="FontAwesome5Regular400.otf#Font Awesome 5 Free" />
+                <On Platform="iOS" Value="FontAwesome5Free-Regular" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="FontAwesomeBrand" x:TypeArguments="x:String">
+                <On Platform="Android" Value="FontAwesome5BrandsRegular400.otf#Font Awesome 5 Brands" />
+                <On Platform="iOS" Value="FontAwesome5Brands-Regular" />
+            </OnPlatform>
+
+            <!--  Control Templates  -->
+
+            <ControlTemplate x:Key="RadioButtonTemplate">
+                <Frame
+                    x:Name="frame"
+                    Padding="0"
+                    BackgroundColor="{x:AppThemeBinding Dark={StaticResource DialogBackgroundDark},
+                                                      Light={StaticResource DialogBackgroundLight}}"
+                    CornerRadius="5"
+                    HasShadow="False"
+                    HeightRequest="56"
+                    HorizontalOptions="FillAndExpand">
+                    <Grid
+                        Margin="16,0"
+                        ColumnDefinitions="Auto,*"
+                        ColumnSpacing="16"
+                        RowDefinitions="32"
+                        VerticalOptions="Center">
+                        <Grid>
+                            <Ellipse
+                                HeightRequest="32"
+                                HorizontalOptions="Center"
+                                Stroke="{x:AppThemeBinding Light={StaticResource PrimaryLightBrush},
+                                                         Dark={StaticResource PrimaryDarkBrush}}"
+                                StrokeThickness="4"
+                                VerticalOptions="Center"
+                                WidthRequest="32" />
+                            <Ellipse
+                                x:Name="check"
+                                Fill="{x:AppThemeBinding Dark={StaticResource PrimaryDarkBrush},
+                                                       Light={StaticResource PrimaryLightBrush}}"
+                                HeightRequest="12"
+                                HorizontalOptions="Center"
+                                StrokeThickness="0"
+                                VerticalOptions="Center"
+                                WidthRequest="12" />
+                        </Grid>
+                        <ContentPresenter Grid.Column="1" VerticalOptions="Center" />
+                    </Grid>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CheckedStates">
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="frame" Property="BorderColor" Value="{x:AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
+                                        <Setter TargetName="check" Property="Opacity" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unchecked">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="frame" Property="BorderColor" Value="{x:AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
+                                        <Setter TargetName="check" Property="Opacity" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </Frame>
+            </ControlTemplate>
+
+            <DataTemplate x:Key="InstructionsDataTemplate">
+                <Grid Margin="0,4" ColumnDefinitions="Auto, *">
+                    <Label
+                        Margin="0,0,8,0"
+                        Style="{DynamicResource BodyLabelStyle}"
+                        Text="•" />
+                    <Label
+                        Grid.Column="1"
+                        Style="{DynamicResource BodyLabelStyle}"
+                        Text="{Binding}" />
+                </Grid>
+            </DataTemplate>
+
+            <!--  Generic Styles  -->
+
+            <Style TargetType="Grid">
+                <Setter Property="ColumnSpacing" Value="0" />
+                <Setter Property="RowSpacing" Value="0" />
+            </Style>
+
+            <Style TargetType="StackLayout">
+                <Setter Property="Spacing" Value="0" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
+                <Setter Property="TextColor" Value="{x:AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
+
+
+
+            <!--  Specific Styles  -->
+
+            <x:Double x:Key="InputFontSize">20</x:Double>
+            <x:Double x:Key="CornerRadius">5</x:Double>
+
+
+            <Style x:Key="BaseLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
+                <Setter Property="TextColor" Value="{x:AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+            </Style>
+
+            <!-- <core:LabelStyle -->
+            <!--     x:Key="InputLayoutHelperLabelStyle" -->
+            <!--     FontFamily="{StaticResource Rubik}" -->
+            <!--     FontSize="16" /> -->
+
+s           <!-- <Style x:Key="BaseTextInputLayoutStyle" TargetType="inputLayout:SfTextInputLayout"> -->
+            <!--     <Setter Property="ContainerType" Value="Outlined" /> -->
+            <!--     <Setter Property="FocusedColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" /> -->
+            <!--     <Setter Property="UnfocusedColor" Value="{AppThemeBinding Dark='White', Light='Black'}" /> -->
+            <!--     <Setter Property="ErrorColor" Value="{AppThemeBinding Dark={StaticResource ErrorDark}, Light={StaticResource ErrorLight}}" /> -->
+            <!--     <Setter Property="OutlineCornerRadius" Value="{StaticResource CornerRadius}" /> -->
+            <!--     <Setter Property="HelperLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
+            <!--     <Setter Property="CounterLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
+            <!--     <Setter Property="ErrorLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
+            <!--     <Setter Property="HintLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
+            <!-- </Style> -->
+
+            <Style x:Key="BaseEntryStyle" TargetType="Entry">
+                <Setter Property="FontFamily" Value="{StaticResource Rubik}" />
+                <Setter Property="FontSize" Value="{StaticResource InputFontSize}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnBackgroundLight}, Dark={StaticResource OnBackgroundDark}}" />
+            </Style>
+
+            <Style x:Key="BaseButtonStyle" TargetType="Button">
+                <Setter Property="FontFamily" Value="{StaticResource Rubik}" />
+                <Setter Property="FontSize" Value="{StaticResource InputFontSize}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnPrimaryLight}, Dark={StaticResource OnPrimaryDark}}" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}" />
+                <Setter Property="HeightRequest" Value="60" />
+                <Style.Triggers>
+                    <Trigger TargetType="Button" Property="IsEnabled" Value="False">
+                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryDisabledLight}, Dark={StaticResource PrimaryDisabledDark}}" />
+                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnPrimaryDisabledLight}, Dark={StaticResource OnPrimaryDisabledDark}}" />
+                    </Trigger>
+                    <Trigger TargetType="Button" Property="IsEnabled" Value="True">
+                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
+                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnPrimaryLight}, Dark={StaticResource OnPrimaryDark}}" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style x:Key="BaseRadioButtonTheme" TargetType="RadioButton">
+                <Setter Property="ControlTemplate" Value="{StaticResource RadioButtonTemplate}" />
+            </Style>
+
+            <!-- <Style x:Key="NumericInputStyle" TargetType="numericInput:SfNumericTextBox"> -->
+            <!--     <Setter Property="FontFamily" Value="{DynamicResource Rubik}" /> -->
+            <!--     <Setter Property="FontSize" Value="{DynamicResource InputFontSize}" /> -->
+            <!--     <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" /> -->
+            <!-- </Style> -->
+
+
+
+            <!-- <core:SelectionIndicatorSettings -->
+            <!--     x:Key="SelectionIndicatorSettingsStyle" -->
+            <!--     CornerRadius="{StaticResource CornerRadius}" -->
+            <!--     Position="Fill" -->
+            <!--     Color="{AppThemeBinding Dark={StaticResource PrimaryDark}, -->
+            <!--                             Light={StaticResource PrimaryLight}}" /> -->
+
+            <!-- <Style x:Key="SegmentedControlStyle" TargetType="core:SfSegmentedControl"> -->
+            <!--     <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource PrimaryBackgroundDark}, Light={StaticResource PrimaryBackgroundLight}}" /> -->
+            <!--     <Setter Property="SelectionTextColor" Value="{AppThemeBinding Dark={StaticResource OnPrimaryDark}, Light={StaticResource OnPrimaryLight}}" /> -->
+            <!--     <Setter Property="FontColor" Value="{AppThemeBinding Dark={StaticResource UnselectedDark}, Light={StaticResource UnselectedLight}}" /> -->
+            <!--     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" /> -->
+            <!--     <Setter Property="BorderColor" Value="{AppThemeBinding Dark='#af4448', Light='#c13d43'}" /> -->
+            <!--     <Setter Property="FontFamily" Value="{StaticResource Rubik}" /> -->
+            <!--     <Setter Property="BorderThickness" Value="1" /> -->
+            <!--     <Setter Property="FontSize" Value="18" /> -->
+            <!--     <Setter Property="SelectionIndicatorSettings" Value="{StaticResource SelectionIndicatorSettingsStyle}" /> -->
+            <!-- -->
+            <!-- </Style> -->
+
+
+
+
+            <!-- <Style x:Key="UpDownButtonSettingsStyle" TargetType="upDown:UpDownButtonSettings"> -->
+            <!--     <Setter Property="ButtonFontColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" /> -->
+            <!--     <Setter Property="ButtonFontFamily" Value="{StaticResource FontAwesome}" /> -->
+            <!--     <Setter Property="ButtonFontSize" Value="48" /> -->
+            <!--     <Setter Property="ButtonHeight" Value="48" /> -->
+            <!--     <Setter Property="ButtonWidth" Value="48" /> -->
+            <!-- </Style> -->
+            
+            <!-- <Style x:Key="UpDownStyle" TargetType="upDown:SfNumericUpDown"> -->
+            <!--     <Setter Property="FontFamily" Value="{StaticResource Rubik}" /> -->
+            <!--     <Setter Property="FontSize" Value="24" /> -->
+            <!--     <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" /> -->
+            <!-- </Style> -->
+
+
+            <Style
+                x:Key="HeaderLabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+            </Style>
+
+            <Style
+                x:Key="Header2LabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontFamily" Value="{StaticResource RubikMedium}" />
+            </Style>
+
+            <Style
+                x:Key="BodyLabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalTextAlignment" Value="Start" />
+                <Setter Property="LineHeight" Value="1.3" />
+            </Style>
+
+            <Style
+                x:Key="OverlineLabelStyle"
+                BasedOn="{StaticResource BaseLabelStyle}"
+                TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="CharacterSpacing" Value="1.5" />
+                <Setter Property="FontFamily" Value="{StaticResource RubikMedium}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
+            </Style>
+
+            <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}" />
+            </Style>
+
+
+
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
