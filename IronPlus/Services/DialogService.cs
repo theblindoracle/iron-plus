@@ -1,4 +1,7 @@
-﻿using Acr.UserDialogs;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Acr.UserDialogs;
 using IronPlus.Interfaces;
 
 namespace IronPlus.Services
@@ -25,8 +28,8 @@ namespace IronPlus.Services
 
         public IDisposable Toast(ToastConfig config)
         {
-            config.BackgroundColor = themeService.GetThemedResourceColor("DialogBackground", true);
-            config.MessageTextColor = themeService.GetThemedResourceColor("OnDialogBackground", true);
+            // config.BackgroundColor = themeService.GetThemedResourceColor("DialogBackground", true);
+            // config.MessageTextColor = themeService.GetThemedResourceColor("OnDialogBackground", true);
             return _instance.Toast(config);
         }
 

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using IronPlus.Enums;
 using IronPlus.Models;
 using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
+// using Microsoft.AppCenter.Analytics;
+// using Microsoft.AppCenter.Crashes;
 
 namespace IronPlus.Services
 {
@@ -29,7 +29,7 @@ namespace IronPlus.Services
                 //#endif
                 //crashes are processed as soon as you call Start , 
                 //this call also changes AppCenter.Configured to true
-                AppCenter.Start(key, typeof(Analytics), typeof(Crashes));
+                // AppCenter.Start(key, typeof(Analytics), typeof(Crashes));
             }
 
             Initialized = true;
@@ -98,7 +98,7 @@ namespace IronPlus.Services
 
             CheckInitialized();
 
-            Analytics.TrackEvent(request.EventName, request.EventData);
+            // Analytics.TrackEvent(request.EventName, request.EventData);
         }
 
 
@@ -167,7 +167,7 @@ namespace IronPlus.Services
 
             CheckInitialized(); // Not really needed since above line would throw exception anyway
 
-            Crashes.TrackError(exception, request.EventData);
+            // Crashes.TrackError(exception, request.EventData);
 
         }
 

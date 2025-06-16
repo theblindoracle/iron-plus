@@ -7,6 +7,7 @@
     xmlns:helpers="clr-namespace:IronPlus.Helpers"
     xmlns:local="clr-namespace:IronPlus.Views"
     xmlns:vm="clr-namespace:IronPlus.ViewModels"
+    xmlns:applicationModel="clr-namespace:Microsoft.Maui.ApplicationModel;assembly=Microsoft.Maui.Essentials"
     x:DataType="vm:ThemeSettingsViewModel">
 
     <local:BasePage.BaseContent>
@@ -17,7 +18,7 @@
             Spacing="8"
             VerticalOptions="StartAndExpand">
 
-            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static AppTheme.Unspecified}">
+            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static applicationModel:AppTheme.Unspecified}">
                 <RadioButton.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding UpdateThemeCommand}" EventName="CheckedChanged" />
                 </RadioButton.Behaviors>
@@ -43,13 +44,13 @@
                     <DataTrigger
                         Binding="{Binding SelectedTheme}"
                         TargetType="RadioButton"
-                        Value="{x:Static AppTheme.Unspecified}">
+                        Value="{x:Static applicationModel:AppTheme.Unspecified}">
                         <Setter Property="IsChecked" Value="True" />
                     </DataTrigger>
                 </RadioButton.Triggers>
             </RadioButton>
 
-            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static AppTheme.Light}">
+            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static applicationModel:AppTheme.Light}">
                 <RadioButton.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding UpdateThemeCommand}" EventName="CheckedChanged" />
                 </RadioButton.Behaviors>
@@ -75,13 +76,13 @@
                     <DataTrigger
                         Binding="{Binding SelectedTheme}"
                         TargetType="RadioButton"
-                        Value="{x:Static AppTheme.Light}">
+                        Value="{x:Static applicationModel:AppTheme.Light}">
                         <Setter Property="IsChecked" Value="True" />
                     </DataTrigger>
                 </RadioButton.Triggers>
             </RadioButton>
 
-            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static AppTheme.Dark}">
+            <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static applicationModel:AppTheme.Dark}">
                 <RadioButton.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding UpdateThemeCommand}" EventName="CheckedChanged" />
                 </RadioButton.Behaviors>
@@ -107,7 +108,7 @@
                     <DataTrigger
                         Binding="{Binding SelectedTheme}"
                         TargetType="RadioButton"
-                        Value="{x:Static AppTheme.Dark}">
+                        Value="{x:Static applicationModel:AppTheme.Dark}">
                         <Setter Property="IsChecked" Value="True" />
                     </DataTrigger>
                 </RadioButton.Triggers>

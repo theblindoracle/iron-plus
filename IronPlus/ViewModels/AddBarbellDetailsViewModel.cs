@@ -7,6 +7,8 @@ using IronPlus.Services;
 using IronPlus.Validation;
 
 using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Media;
 
 namespace IronPlus.ViewModels
 {

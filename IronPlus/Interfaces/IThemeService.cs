@@ -1,4 +1,7 @@
 ﻿
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Graphics;
+
 namespace IronPlus.Interfaces
 {
     public interface IThemeService

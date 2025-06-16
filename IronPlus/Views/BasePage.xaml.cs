@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using IronPlus.Services;
+﻿using IronPlus.Services;
 using IronPlus.ViewModels;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 
 namespace IronPlus.Views
 {
@@ -14,7 +10,7 @@ namespace IronPlus.Views
             InitializeComponent();
         }
 
-        public IList<View> BaseContent => BaseContentGrid.Children;
+        public IList<IView> BaseContent => BaseContentGrid.Children;
 
         protected override async void OnAppearing()
         {

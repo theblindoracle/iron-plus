@@ -8,6 +8,8 @@ using IronPlus.Validation;
 using Syncfusion.Maui.Buttons;
 
 using Microsoft.Maui;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Media;
 
 namespace IronPlus.ViewModels
 {

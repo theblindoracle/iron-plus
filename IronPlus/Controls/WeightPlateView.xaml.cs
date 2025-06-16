@@ -1,6 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Maui;
+using Microsoft.Maui.Controls.Compatibility;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Controls;
+using BindableProperty = Microsoft.Maui.Controls.BindableProperty;
+using ColumnDefinition = Microsoft.Maui.Controls.ColumnDefinition;
+using ContentView = Microsoft.Maui.Controls.ContentView;
+using Frame = Microsoft.Maui.Controls.Frame;
+using Grid = Microsoft.Maui.Controls.Compatibility.Grid;
+using Label = Microsoft.Maui.Controls.Label;
+using LayoutOptions = Microsoft.Maui.Controls.LayoutOptions;
 
 namespace IronPlus.Controls
 {
@@ -227,7 +237,7 @@ namespace IronPlus.Controls
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
 
-            List<View> plateViews = new List<View>();
+            var plateViews = new List<View>();
 
             for (int index = 0; index < plates.Count; index++)
             {
@@ -273,12 +283,15 @@ namespace IronPlus.Controls
                 var view = plateViews[column];
                 if (view is CollarView collar)
                 {
-                    grid.Children.Add(collar, column, column + 2, 0, 1);
+                    // grid.Children.Add(collar, column, column + 2, 0, 1);
+                    grid.Children.Add(collar);
                     
                 }
                 else
                 {
-                    grid.Children.Add(plateViews[column], column, 0);
+                    // grid.Children.Add(plateViews[column], column, 0);
+                    grid.Children.Add(plateViews[column]);
+                    
 
                 }
 
@@ -343,8 +356,8 @@ namespace IronPlus.Controls
 
 
 
-            if (plate.BackgroundColorDark != Color.Default)
-                frame.SetAppThemeColor(Frame.BackgroundColorProperty, plate.BackgroundColorLight, plate.BackgroundColorDark);
+            // if (plate.BackgroundColorDark != Color.Default)
+            //     frame.SetAppThemeColor(Frame.BackgroundColorProperty, plate.BackgroundColorLight, plate.BackgroundColorDark);
 
 
             return frame;
@@ -364,7 +377,7 @@ namespace IronPlus.Controls
             {
                 textLabel = new Label()
                 {
-                    TextColor = Color.Black,
+                    TextColor = Colors.Black,
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     Text = "Collar",
                     FontSize = 18,
@@ -391,8 +404,8 @@ namespace IronPlus.Controls
                 };
 
 
-                if (collar.BackgroundColorDark != Color.Default)
-                    frame.SetAppThemeColor(Frame.BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
+                // if (collar.BackgroundColorDark != Color.Default)
+                //     frame.SetAppThemeColor(Frame.BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
 
 
                 Children.Add(frame);
