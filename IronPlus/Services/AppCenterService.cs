@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using IronPlus.Enums;
 using IronPlus.Models;
-using Microsoft.AppCenter;
+// using Microsoft.AppCenter;
 // using Microsoft.AppCenter.Analytics;
 // using Microsoft.AppCenter.Crashes;
 
@@ -21,8 +21,8 @@ namespace IronPlus.Services
             }
 
 
-            if (!AppCenter.Configured)
-            {
+            // if (!AppCenter.Configured)
+            // {
                 //#if DEBUG
                 //                //set APPCENTER SDK  log level
                 //                Microsoft.AppCenter.AppCenter.LogLevel = LogLevel.Verbose;
@@ -30,7 +30,7 @@ namespace IronPlus.Services
                 //crashes are processed as soon as you call Start , 
                 //this call also changes AppCenter.Configured to true
                 // AppCenter.Start(key, typeof(Analytics), typeof(Crashes));
-            }
+            // }
 
             Initialized = true;
 
@@ -45,7 +45,7 @@ namespace IronPlus.Services
 
         }
 
-        public static string InstallID => AppCenter.GetInstallIdAsync().ToString();
+        public static string InstallID => ""; //AppCenter.GetInstallIdAsync().ToString();
 
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace IronPlus.Services
             request.EventData.Add("Category", request.EventType.ToString());
 
 
-            CheckInitialized();
+            // CheckInitialized();
 
             // Analytics.TrackEvent(request.EventName, request.EventData);
         }
