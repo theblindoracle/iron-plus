@@ -8,9 +8,10 @@ using Google.Android.Material.BottomNavigation;
 using Microsoft.Maui.Controls.Compatibility;
 using Microsoft.Maui.Controls.Handlers.Compatibility;
 using Microsoft.Maui.Controls.Platform.Compatibility;
+using Toolbar = AndroidX.AppCompat.Widget.Toolbar;
 
-[assembly: ExportRenderer(typeof(IronPlus.AppShell), typeof(IronSport.Droid.CustomShellRenderer))]
-namespace IronSport.Droid
+[assembly: ExportRenderer(typeof(IronPlus.AppShell), typeof(IronPlus.Droid.CustomShellRenderer))]
+namespace IronPlus.Droid
 {
     public class CustomShellRenderer : ShellRenderer
     {

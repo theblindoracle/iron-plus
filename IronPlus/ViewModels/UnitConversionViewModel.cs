@@ -80,7 +80,6 @@ namespace IronPlus.ViewModels
         double kilogramRoundToNearest;
         double convertedValue;
 
-
         public List<SfSegmentItem> ConversionToggleList
         {
             get => new List<SfSegmentItem>
@@ -106,7 +105,9 @@ namespace IronPlus.ViewModels
             set => SetProperty(ref barbells, value);
         }
 
-        Barbell selectedBarbell;
+        private Barbell selectedBarbell =
+            new(){Name = "Standard", WeightInPounds = 45,
+                WeightInKilograms = 20};
         public Barbell SelectedBarbell
         {
             get => selectedBarbell;

@@ -5,7 +5,7 @@ using IronPlus.Interfaces;
 using Microsoft.Maui.Platform;
 using Color = Microsoft.Maui.Graphics.Color;
 
-namespace IronSport.Droid.Services
+namespace IronPlus.Droid.Services
 {
     public class PlatformService : IPlatformService
     {
