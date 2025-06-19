@@ -10,7 +10,6 @@
     xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
     xmlns:local="clr-namespace:IronPlus.Views"
     xmlns:numericInput="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
-    xmlns:numericUpDown="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     xmlns:vm="clr-namespace:IronPlus.ViewModels"
     x:DataType="vm:RpeChartCalculationViewModel">
 
@@ -103,7 +102,8 @@
                             Hint="Weight"
                             Style="{DynamicResource BaseTextInputLayoutStyle}">
                             <numericInput:SfNumericEntry
-                                CustomFormat="n"
+                                ShowClearButton="False"
+                                CustomFormat="n2"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding HaveWeight.Value}">
                                 <numericInput:SfNumericEntry.Behaviors>
@@ -122,6 +122,7 @@
                             Style="{DynamicResource BaseTextInputLayoutStyle}">
                             <numericInput:SfNumericEntry
                                 CustomFormat="0"
+                                ShowClearButton="False"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding HaveReps.Value}">
                                 <numericInput:SfNumericEntry.Behaviors>
@@ -138,6 +139,7 @@
                             Hint="RPE"
                             Style="{DynamicResource BaseTextInputLayoutStyle}">
                             <numericInput:SfNumericEntry
+                                ShowClearButton="False"
                                 CustomFormat="0.0"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding HaveRpe.Value}">
@@ -165,52 +167,102 @@
                            IsVisible="{Binding ShowTargetSetHelperText}"
                            TextColor="{AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}"/>
                     <StackLayout>
-                        <!-- <inputLayout:SfTextInputLayout Hint="Reps" Style="{StaticResource BaseTextInputLayoutStyle}"> -->
-                        <!--     <numericUpDown:SfNumericEntry -->
-                        <!--         CustomFormat="0" -->
-                        <!--         Maximum="12" -->
-                        <!--         Minimum="1" -->
-                        <!--         SpinButtonAlignment="Both" -->
-                        <!--         Style="{StaticResource UpDownStyle}" -->
-                        <!--         TextAlignment="Center" -->
-                        <!--         Value="{Binding WantReps.Value}"> -->
-                        <!--         <numericUpDown:SfNumericUpDown.DecrementButtonSettings> -->
-                        <!--             <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretDown}" Style="{StaticResource UpDownButtonSettingsStyle}" /> -->
-                        <!--         </numericUpDown:SfNumericUpDown.DecrementButtonSettings> -->
-                        <!--         <numericUpDown:SfNumericUpDown.IncrementButtonSettings> -->
-                        <!--             <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretUp}" Style="{StaticResource UpDownButtonSettingsStyle}" /> -->
-                        <!--         </numericUpDown:SfNumericUpDown.IncrementButtonSettings> -->
-                        <!--         <numericUpDown:SfNumericUpDown.Behaviors> -->
-                        <!--             <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" /> -->
-                        <!--         </numericUpDown:SfNumericUpDown.Behaviors> -->
-                        <!--     </numericUpDown:SfNumericUpDown> -->
-                        <!-- </inputLayout:SfTextInputLayout> -->
+                        <inputLayout:SfTextInputLayout Hint="Reps" Style="{StaticResource BaseTextInputLayoutStyle}">
+                            <numericInput:SfNumericEntry
+                                CustomFormat="0"
+                                Maximum="12"
+                                Minimum="1"
+                                UpDownButtonAlignment="Both"
+                                UpDownPlacementMode="Inline"
+                                ShowClearButton="False"
+                                HorizontalTextAlignment="Center"
+                                Style="{StaticResource NumericInputStyle}"
+                                Value="{Binding WantReps.Value}">
 
-                        <!-- <inputLayout:SfTextInputLayout Hint="RPE" Style="{StaticResource BaseTextInputLayoutStyle}"> -->
-                        <!--     <numericUpDown:SfNumericUpDown -->
-                        <!--         FormatString="0.0" -->
-                        <!--         Maximum="10" -->
-                        <!--         Minimum="5" -->
-                        <!--         SelectAllOnFocus="True" -->
-                        <!--         SpinButtonAlignment="Both" -->
-                        <!--         StepValue="0.5" -->
-                        <!--         Style="{StaticResource UpDownStyle}" -->
-                        <!--         TextAlignment="Center" -->
-                        <!--         Value="{Binding WantRpe.Value}"> -->
-                        <!--         <numericUpDown:SfNumericUpDown.DecrementButtonSettings> -->
-                        <!--             <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretDown}" Style="{StaticResource UpDownButtonSettingsStyle}" /> -->
-                        <!--         </numericUpDown:SfNumericUpDown.DecrementButtonSettings> -->
-                        <!--         <numericUpDown:SfNumericUpDown.IncrementButtonSettings> -->
-                        <!--             <numericUpDown:UpDownButtonSettings ButtonFontIcon="{x:Static helpers:FAIcons.CaretUp}" Style="{StaticResource UpDownButtonSettingsStyle}" /> -->
-                        <!--         </numericUpDown:SfNumericUpDown.IncrementButtonSettings> -->
-                        <!--         <numericUpDown:SfNumericUpDown.Behaviors> -->
-                        <!--             <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}" EventName="ValueChanged" /> -->
-                        <!--         </numericUpDown:SfNumericUpDown.Behaviors> -->
-                        <!--     </numericUpDown:SfNumericUpDown> -->
-                        <!-- </inputLayout:SfTextInputLayout> -->
+                                <numericInput:SfNumericEntry.UpButtonTemplate>
+                                    <DataTemplate>
+                                        <Image
+                                            HeightRequest="48"
+                                            WidthRequest="48">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="{StaticResource FontAwesome}"
+                                                                 Glyph="{x:Static helpers:FAIcons.CaretUp}"
+                                                                 Color="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}">
+                                                </FontImageSource>
+                                            </Image.Source>
+                                        </Image>
+                                    </DataTemplate>
+                                </numericInput:SfNumericEntry.UpButtonTemplate>
+                                <numericInput:SfNumericEntry.DownButtonTemplate>
+                                    <DataTemplate>
+                                        <Image
+                                            HeightRequest="48"
+                                            WidthRequest="48">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="{StaticResource FontAwesome}"
+                                                                 Glyph="{x:Static helpers:FAIcons.CaretDown}"
+                                                                 Color="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}">
+                                                </FontImageSource>
+                                            </Image.Source>
+                                        </Image>
+                                    </DataTemplate>
+                                </numericInput:SfNumericEntry.DownButtonTemplate>
 
+                                <numericInput:SfNumericEntry.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}"
+                                                                      EventName="ValueChanged" />
+                                </numericInput:SfNumericEntry.Behaviors>
+                            </numericInput:SfNumericEntry>
+                        </inputLayout:SfTextInputLayout>
+
+                        <inputLayout:SfTextInputLayout Hint="RPE" Style="{StaticResource BaseTextInputLayoutStyle}">
+                            <numericInput:SfNumericEntry
+                                CustomFormat="0.0"
+                                Maximum="10"
+                                Minimum="4"
+                                UpDownButtonAlignment="Both"
+                                UpDownPlacementMode="Inline"
+                                ShowClearButton="False"
+                                HorizontalTextAlignment="Center"
+                                SmallChange="0.5"
+                                Style="{StaticResource NumericInputStyle}"
+                                Value="{Binding WantRpe.Value}">
+                                <numericInput:SfNumericEntry.UpButtonTemplate>
+                                    <DataTemplate>
+                                        <Image
+                                            HeightRequest="48"
+                                            WidthRequest="48">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="{StaticResource FontAwesome}"
+                                                                 Glyph="{x:Static helpers:FAIcons.CaretUp}"
+                                                                 Color="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}">
+                                                </FontImageSource>
+                                            </Image.Source>
+                                        </Image>
+                                    </DataTemplate>
+                                </numericInput:SfNumericEntry.UpButtonTemplate>
+                                <numericInput:SfNumericEntry.DownButtonTemplate>
+                                    <DataTemplate>
+                                        <Image
+                                            HeightRequest="48"
+                                            WidthRequest="48">
+                                            <Image.Source>
+                                                <FontImageSource FontFamily="{StaticResource FontAwesome}"
+                                                                 Glyph="{x:Static helpers:FAIcons.CaretDown}"
+                                                                 Color="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}">
+                                                </FontImageSource>
+                                            </Image.Source>
+                                        </Image>
+                                    </DataTemplate>
+                                </numericInput:SfNumericEntry.DownButtonTemplate>
+                                <numericInput:SfNumericEntry.Behaviors>
+                                    <behaviors:EventToCommandBehavior Command="{Binding CalculateNewWeightCommand}"
+                                                                      EventName="ValueChanged" />
+                                </numericInput:SfNumericEntry.Behaviors>
+                            </numericInput:SfNumericEntry>
+
+                        </inputLayout:SfTextInputLayout>
                     </StackLayout>
-
                 </StackLayout>
             </Grid>
         </ScrollView>

@@ -1,11 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Application
     x:Class="IronPlus.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:core="http://schemas.syncfusion.com/maui"
+    xmlns:sf="http://schemas.syncfusion.com/maui"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
     mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
@@ -28,8 +30,6 @@
             <Color x:Key="OnNavigationPrimaryUnselectedLight">#AB000000</Color>
             <Color x:Key="OnDialogBackgroundLight">#000000</Color>
             <Color x:Key="OnPrimaryBackgroundLight">#FFFFFF</Color>
-
-
 
 
             <Color x:Key="PrimaryDark">#E57373</Color>
@@ -58,7 +58,6 @@
             <SolidColorBrush x:Key="PrimaryDarkBrush" Color="{StaticResource PrimaryDark}" />
             <SolidColorBrush x:Key="DialogBackgroundLightBrush" Color="{StaticResource DialogBackgroundLight}" />
             <SolidColorBrush x:Key="DialogBackgroundDarkBrush" Color="{StaticResource DialogBackgroundDark}" />
-
 
 
             <OnPlatform x:Key="Questrial" x:TypeArguments="x:String">
@@ -140,13 +139,15 @@
                             <VisualStateGroup x:Name="CheckedStates">
                                 <VisualState x:Name="Checked">
                                     <VisualState.Setters>
-                                        <Setter TargetName="frame" Property="BorderColor" Value="{x:AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
+                                        <Setter TargetName="frame" Property="BorderColor"
+                                                Value="{x:AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
                                         <Setter TargetName="check" Property="Opacity" Value="1" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Unchecked">
                                     <VisualState.Setters>
-                                        <Setter TargetName="frame" Property="BorderColor" Value="{x:AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
+                                        <Setter TargetName="frame" Property="BorderColor"
+                                                Value="{x:AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
                                         <Setter TargetName="check" Property="Opacity" Value="0" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -169,6 +170,10 @@
                 </Grid>
             </DataTemplate>
 
+            <DataTemplate x:Key="UpDownUpButton">
+                <Label Text="Up" />
+            </DataTemplate>
+
             <!--  Generic Styles  -->
 
             <Style TargetType="Grid">
@@ -182,10 +187,10 @@
 
             <Style TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
-                <Setter Property="TextColor" Value="{x:AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+                <Setter Property="TextColor"
+                        Value="{x:AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
                 <Setter Property="FontSize" Value="18" />
             </Style>
-
 
 
             <!--  Specific Styles  -->
@@ -196,48 +201,78 @@
 
             <Style x:Key="BaseLabelStyle" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
-                <Setter Property="TextColor" Value="{x:AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+                <Setter Property="TextColor"
+                        Value="{x:AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
             </Style>
 
-            <!-- <core:LabelStyle -->
-            <!--     x:Key="InputLayoutHelperLabelStyle" -->
-            <!--     FontFamily="{StaticResource Rubik}" -->
-            <!--     FontSize="16" /> -->
+            <sf:LabelStyle
+                x:Key="InputLayoutHelperLabelStyle"
+                FontFamily="{StaticResource Rubik}"
+                FontSize="16"
+                TextColor="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
 
-s           <!-- <Style x:Key="BaseTextInputLayoutStyle" TargetType="inputLayout:SfTextInputLayout"> -->
-            <!--     <Setter Property="ContainerType" Value="Outlined" /> -->
-            <!--     <Setter Property="FocusedColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" /> -->
-            <!--     <Setter Property="UnfocusedColor" Value="{AppThemeBinding Dark='White', Light='Black'}" /> -->
-            <!--     <Setter Property="ErrorColor" Value="{AppThemeBinding Dark={StaticResource ErrorDark}, Light={StaticResource ErrorLight}}" /> -->
-            <!--     <Setter Property="OutlineCornerRadius" Value="{StaticResource CornerRadius}" /> -->
-            <!--     <Setter Property="HelperLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
-            <!--     <Setter Property="CounterLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
-            <!--     <Setter Property="ErrorLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
-            <!--     <Setter Property="HintLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" /> -->
-            <!-- </Style> -->
+            <Style x:Key="BaseTextInputLayoutStyle" TargetType="sf:SfTextInputLayout">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke" Value="{AppThemeBinding Dark='White', Light='Black'}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Focused">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke"
+                                            Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState Name="Error">
+                                <VisualState.Setters>
+                                    <Setter Property="Stroke"
+                                            Value="{AppThemeBinding Dark={StaticResource ErrorDark}, Light={StaticResource ErrorLight}}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+                <Setter Property="ContainerType" Value="Outlined" />
+
+                <Setter Property="OutlineCornerRadius" Value="{StaticResource CornerRadius}" />
+                <Setter Property="HelperLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />
+                <!-- <Setter Property="CounterLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />  -->
+                <Setter Property="ErrorLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />
+                <Setter Property="HintLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />
+            </Style>
 
             <Style x:Key="BaseEntryStyle" TargetType="Entry">
                 <Setter Property="FontFamily" Value="{StaticResource Rubik}" />
                 <Setter Property="FontSize" Value="{StaticResource InputFontSize}" />
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnBackgroundLight}, Dark={StaticResource OnBackgroundDark}}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource OnBackgroundLight}, Dark={StaticResource OnBackgroundDark}}" />
             </Style>
 
             <Style x:Key="BaseButtonStyle" TargetType="Button">
                 <Setter Property="FontFamily" Value="{StaticResource Rubik}" />
                 <Setter Property="FontSize" Value="{StaticResource InputFontSize}" />
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
-                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnPrimaryLight}, Dark={StaticResource OnPrimaryDark}}" />
+                <Setter Property="BackgroundColor"
+                        Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Light={StaticResource OnPrimaryLight}, Dark={StaticResource OnPrimaryDark}}" />
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="CornerRadius" Value="{StaticResource CornerRadius}" />
                 <Setter Property="HeightRequest" Value="60" />
                 <Style.Triggers>
                     <Trigger TargetType="Button" Property="IsEnabled" Value="False">
-                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryDisabledLight}, Dark={StaticResource PrimaryDisabledDark}}" />
-                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnPrimaryDisabledLight}, Dark={StaticResource OnPrimaryDisabledDark}}" />
+                        <Setter Property="BackgroundColor"
+                                Value="{AppThemeBinding Light={StaticResource PrimaryDisabledLight}, Dark={StaticResource PrimaryDisabledDark}}" />
+                        <Setter Property="TextColor"
+                                Value="{AppThemeBinding Light={StaticResource OnPrimaryDisabledLight}, Dark={StaticResource OnPrimaryDisabledDark}}" />
                     </Trigger>
                     <Trigger TargetType="Button" Property="IsEnabled" Value="True">
-                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
-                        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource OnPrimaryLight}, Dark={StaticResource OnPrimaryDark}}" />
+                        <Setter Property="BackgroundColor"
+                                Value="{AppThemeBinding Light={StaticResource PrimaryLight}, Dark={StaticResource PrimaryDark}}" />
+                        <Setter Property="TextColor"
+                                Value="{AppThemeBinding Light={StaticResource OnPrimaryLight}, Dark={StaticResource OnPrimaryDark}}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -246,12 +281,12 @@ s           <!-- <Style x:Key="BaseTextInputLayoutStyle" TargetType="inputLayout
                 <Setter Property="ControlTemplate" Value="{StaticResource RadioButtonTemplate}" />
             </Style>
 
-            <!-- <Style x:Key="NumericInputStyle" TargetType="numericInput:SfNumericTextBox"> -->
-            <!--     <Setter Property="FontFamily" Value="{DynamicResource Rubik}" /> -->
-            <!--     <Setter Property="FontSize" Value="{DynamicResource InputFontSize}" /> -->
-            <!--     <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" /> -->
-            <!-- </Style> -->
-
+            <Style x:Key="NumericInputStyle" TargetType="inputs:SfNumericEntry">
+                <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
+                <Setter Property="FontSize" Value="{DynamicResource InputFontSize}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+            </Style>
 
 
             <!-- <core:SelectionIndicatorSettings -->
@@ -275,6 +310,13 @@ s           <!-- <Style x:Key="BaseTextInputLayoutStyle" TargetType="inputLayout
             <!-- </Style> -->
 
 
+            <Style x:Key="UpDownButtonSettingsStyle" TargetType="Label">
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
+                <Setter Property="FontFamily" Value="{StaticResource FontAwesome}" />
+                <Setter Property="FontSize" Value="48" />
+                <Setter Property="Width" Value="48" />
+            </Style>
 
 
             <!-- <Style x:Key="UpDownButtonSettingsStyle" TargetType="upDown:UpDownButtonSettings"> -->
@@ -284,7 +326,7 @@ s           <!-- <Style x:Key="BaseTextInputLayoutStyle" TargetType="inputLayout
             <!--     <Setter Property="ButtonHeight" Value="48" /> -->
             <!--     <Setter Property="ButtonWidth" Value="48" /> -->
             <!-- </Style> -->
-            
+
             <!-- <Style x:Key="UpDownStyle" TargetType="upDown:SfNumericUpDown"> -->
             <!--     <Setter Property="FontFamily" Value="{StaticResource Rubik}" /> -->
             <!--     <Setter Property="FontSize" Value="24" /> -->
@@ -323,17 +365,18 @@ s           <!-- <Style x:Key="BaseTextInputLayoutStyle" TargetType="inputLayout
                 <Setter Property="FontSize" Value="16" />
                 <Setter Property="CharacterSpacing" Value="1.5" />
                 <Setter Property="FontFamily" Value="{StaticResource RubikMedium}" />
-                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
             </Style>
 
             <Style x:Key="RadioButtonStyle" TargetType="RadioButton">
                 <Setter Property="FontSize" Value="20" />
                 <Setter Property="FontFamily" Value="{DynamicResource Rubik}" />
-                <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
-                <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}" />
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" />
+                <Setter Property="BackgroundColor"
+                        Value="{AppThemeBinding Dark={StaticResource BackgroundDark}, Light={StaticResource BackgroundLight}}" />
             </Style>
-
-
 
 
         </ResourceDictionary>
