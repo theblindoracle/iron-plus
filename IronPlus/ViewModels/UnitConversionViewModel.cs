@@ -105,15 +105,13 @@ namespace IronPlus.ViewModels
             set => SetProperty(ref barbells, value);
         }
 
-        private Barbell selectedBarbell =
-            new(){Name = "Standard", WeightInPounds = 45,
-                WeightInKilograms = 20};
+        private Barbell _selectedBarbell = new(){Name = "Standard", WeightInPounds = 45, WeightInKilograms = 20};
         public Barbell SelectedBarbell
         {
-            get => selectedBarbell;
+            get => _selectedBarbell;
             set
             {
-                SetProperty(ref selectedBarbell, value);
+                SetProperty(ref _selectedBarbell, value);
                 OnPropertyChanged(nameof(SelectedBarbellWeight));
             }
         }
