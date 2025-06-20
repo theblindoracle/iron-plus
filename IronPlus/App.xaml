@@ -289,25 +289,29 @@
             </Style>
 
 
-            <!-- <core:SelectionIndicatorSettings -->
-            <!--     x:Key="SelectionIndicatorSettingsStyle" -->
-            <!--     CornerRadius="{StaticResource CornerRadius}" -->
-            <!--     Position="Fill" -->
-            <!--     Color="{AppThemeBinding Dark={StaticResource PrimaryDark}, -->
-            <!--                             Light={StaticResource PrimaryLight}}" /> -->
+            <sf:SelectionIndicatorSettings
+                x:Key="SelectionIndicatorSettingsStyle"
+                SelectionIndicatorPlacement="Fill"
+                Background="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
 
-            <!-- <Style x:Key="SegmentedControlStyle" TargetType="core:SfSegmentedControl"> -->
-            <!--     <Setter Property="BackgroundColor" Value="{AppThemeBinding Dark={StaticResource PrimaryBackgroundDark}, Light={StaticResource PrimaryBackgroundLight}}" /> -->
-            <!--     <Setter Property="SelectionTextColor" Value="{AppThemeBinding Dark={StaticResource OnPrimaryDark}, Light={StaticResource OnPrimaryLight}}" /> -->
-            <!--     <Setter Property="FontColor" Value="{AppThemeBinding Dark={StaticResource UnselectedDark}, Light={StaticResource UnselectedLight}}" /> -->
-            <!--     <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" /> -->
-            <!--     <Setter Property="BorderColor" Value="{AppThemeBinding Dark='#af4448', Light='#c13d43'}" /> -->
-            <!--     <Setter Property="FontFamily" Value="{StaticResource Rubik}" /> -->
-            <!--     <Setter Property="BorderThickness" Value="1" /> -->
-            <!--     <Setter Property="FontSize" Value="18" /> -->
-            <!--     <Setter Property="SelectionIndicatorSettings" Value="{StaticResource SelectionIndicatorSettingsStyle}" /> -->
-            <!-- -->
-            <!-- </Style> -->
+            <Style x:Key="SegmentedControlTextStyle" TargetType="sf:SegmentTextStyle">
+                <Setter Property="FontFamily" Value="{StaticResource Rubik}"></Setter>
+                <Setter Property="TextColor"
+                        Value="{AppThemeBinding Dark={StaticResource UnselectedDark}, Light={StaticResource UnselectedLight}}" />
+                <Setter Property="FontSize" Value="18" />
+            </Style>
+
+            <Style x:Key="SegmentedControlStyle" TargetType="sf:SfSegmentedControl">
+                <Setter Property="SegmentBackground"
+                        Value="{AppThemeBinding Dark={StaticResource PrimaryBackgroundDark}, Light={StaticResource PrimaryBackgroundLight}}" />
+                <Setter Property="TextStyle" Value="{StaticResource SegmentedControlTextStyle}"></Setter>
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Dark='#af4448', Light='#c13d43'}" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="SelectionIndicatorSettings"
+                        Value="{StaticResource SelectionIndicatorSettingsStyle}" />
+
+            </Style>
 
 
             <Style x:Key="UpDownButtonSettingsStyle" TargetType="Label">
