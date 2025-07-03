@@ -92,7 +92,7 @@
                             HasError="{Binding ValueToConvert.IsValid, Converter={StaticResource InverseBoolConverter}}"
                             Style="{DynamicResource BaseTextInputLayoutStyle}">
                             <numericInput:SfNumericEntry
-                                CustomFormat="{Binding ConvertFromSuffix}"
+                                CustomFormat="{Binding ConvertFromSuffix, StringFormat='#.0 {0}'}"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding ValueToConvert.Value}">
                                 <numericInput:SfNumericEntry.Behaviors>
@@ -106,7 +106,7 @@
 
                     <buttons:SfSegmentedControl
                         ItemsSource="{Binding ConversionToggleList}"
-                        SelectedIndex="{Binding ConversionTypeControlIndex}"
+                        SelectedIndex="{Binding ConversionTypeControlIndex, Mode=TwoWay}"
                         Style="{DynamicResource SegmentedControlStyle}"
                         VisibleSegmentsCount="2">
                         <buttons:SfSegmentedControl.Behaviors>
@@ -119,7 +119,7 @@
 
                     <buttons:SfSegmentedControl
                         ItemsSource="{Binding CollarToggleList}"
-                        SelectedIndex="{Binding CollarControlIndex}"
+                        SelectedIndex="{Binding CollarControlIndex, Mode=TwoWay}"
                         Style="{DynamicResource SegmentedControlStyle}"
                         VisibleSegmentsCount="2">
                         <buttons:SfSegmentedControl.Behaviors>
@@ -133,7 +133,7 @@
                     <buttons:SfSegmentedControl
                         IsVisible="{Binding Barbells, Converter={StaticResource IsBarbellSegmentControlVisibleConverter}}"
                         ItemsSource="{Binding Barbells, Converter={StaticResource BarbellsToSfSegmentItemsConverter}}"
-                        SelectedIndex="{Binding BarbellControlIndex}"
+                        SelectedIndex="{Binding BarbellControlIndex, Mode=TwoWay}"
                         Style="{DynamicResource SegmentedControlStyle}"
                         VisibleSegmentsCount="{Binding Barbells.Count}">
                         <buttons:SfSegmentedControl.Behaviors>

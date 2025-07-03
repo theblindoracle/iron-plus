@@ -31,9 +31,7 @@ namespace IronPlus.ViewModels
         }
 
 
-
-
-        ValidatableObject<double> haveWeight = new ValidatableObject<double> { Value = 600.0 };
+        ValidatableObject<double> haveWeight = new ValidatableObject<double> { Value = 330.0 };
         public ValidatableObject<double> HaveWeight
         {
             get => haveWeight;

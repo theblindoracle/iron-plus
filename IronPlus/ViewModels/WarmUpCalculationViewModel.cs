@@ -1,16 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using IronPlus.Helpers;
+﻿using IronPlus.Helpers;
 using IronPlus.Interfaces;
 using IronPlus.Models;
 using IronPlus.Services;
 using IronPlus.Validation;
 using Syncfusion.Maui.Buttons;
-
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Media;
 
 namespace IronPlus.ViewModels
 {
@@ -31,7 +24,7 @@ namespace IronPlus.ViewModels
 
             TopSetWeight = new ValidatableObject<double>
             {
-                Value = 405
+                Value = 327.5
             };
 
             BarbellWeight = selectedBarbell.WeightInPounds;

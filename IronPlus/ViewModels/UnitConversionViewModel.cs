@@ -1,15 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using IronPlus.Enums;
+﻿using IronPlus.Enums;
 using IronPlus.Helpers;
 using IronPlus.Interfaces;
 using IronPlus.Models;
 using IronPlus.Validation;
 using Syncfusion.Maui.Buttons;
-
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Media;
 
 namespace IronPlus.ViewModels
 {
@@ -30,11 +24,11 @@ namespace IronPlus.ViewModels
 
             if (IsConvertToKilograms)
             {
-                ValueToConvert = new ValidatableObject<double> { Value = 405 };
+                ValueToConvert = new ValidatableObject<double> { Value = 440 };
             }
             else
             {
-                ValueToConvert = new ValidatableObject<double> { Value = 182.5 };
+                ValueToConvert = new ValidatableObject<double> { Value = 200 };
             }
 
 
@@ -58,8 +52,7 @@ namespace IronPlus.ViewModels
             }
 
 
-
-            CalculateConvertedValues();
+            // CalculateConvertedValues();
 
             MessagingCenter.Subscribe<GeneralSettingsViewModel>(this, MessageKeys.UpdateUnitConversionSettings, (sender) =>
             {
@@ -73,7 +66,7 @@ namespace IronPlus.ViewModels
         {
             Barbells = await GetBarbells();
 
-            UpdateSelectedBarbellCommand.Execute(0);
+            //UpdateSelectedBarbellCommand.Execute(0);
         }
 
         double poundRoundToNearest;
@@ -265,15 +258,18 @@ namespace IronPlus.ViewModels
 
         void SetUpConvertFromPoundsToKilograms()
         {
-            IsConvertToKilograms = true;
-            UpdateValueToConvertValidations();
-            ConversionTypeControlIndex = 0;
-            ConvertFromSuffix = "LB";
-            ConvertToSuffix = "KG";
-            if (convertedValue != 0)
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                ValueToConvert.Value = ConvertedValueRounded;
-            }
+                IsConvertToKilograms = true;
+                UpdateValueToConvertValidations();
+                ConversionTypeControlIndex = 0;
+                ConvertFromSuffix = "LB";
+                ConvertToSuffix = "KG";
+                if (convertedValue != 0)
+                {
+                    ValueToConvert.Value = ConvertedValueRounded;
+                }
+            });
         }
 
         void CalculateConvertedValues()
