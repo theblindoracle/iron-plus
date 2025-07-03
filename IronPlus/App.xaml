@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sf="http://schemas.syncfusion.com/maui"
     xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
     mc:Ignorable="d">
     <Application.Resources>
         <ResourceDictionary>
@@ -289,19 +290,19 @@
             </Style>
 
 
-            <sf:SelectionIndicatorSettings
+            <buttons:SelectionIndicatorSettings
                 x:Key="SelectionIndicatorSettingsStyle"
                 SelectionIndicatorPlacement="Fill"
                 Background="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
 
-            <Style x:Key="SegmentedControlTextStyle" TargetType="sf:SegmentTextStyle">
+            <Style x:Key="SegmentedControlTextStyle" TargetType="buttons:SegmentTextStyle">
                 <Setter Property="FontFamily" Value="{StaticResource Rubik}"></Setter>
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Dark={StaticResource UnselectedDark}, Light={StaticResource UnselectedLight}}" />
                 <Setter Property="FontSize" Value="18" />
             </Style>
 
-            <Style x:Key="SegmentedControlStyle" TargetType="sf:SfSegmentedControl">
+            <Style x:Key="SegmentedControlStyle" TargetType="buttons:SfSegmentedControl">
                 <Setter Property="SegmentBackground"
                         Value="{AppThemeBinding Dark={StaticResource PrimaryBackgroundDark}, Light={StaticResource PrimaryBackgroundLight}}" />
                 <Setter Property="TextStyle" Value="{StaticResource SegmentedControlTextStyle}"></Setter>
