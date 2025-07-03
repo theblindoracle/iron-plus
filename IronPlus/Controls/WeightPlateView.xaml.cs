@@ -234,6 +234,7 @@ namespace IronPlus.Controls
 
         void CreatePlateView(List<Plate> plates)
         {
+
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
 
@@ -283,14 +284,15 @@ namespace IronPlus.Controls
                 var view = plateViews[column];
                 if (view is CollarView collar)
                 {
-                    // grid.Children.Add(collar, column, column + 2, 0, 1);
-                    grid.Children.Add(collar);
+                    grid.AddWithSpan(collar, 0, column);
+                    // grid.Children.Add(collar);
+
                     
                 }
                 else
                 {
-                    // grid.Children.Add(plateViews[column], column, 0);
-                    grid.Children.Add(plateViews[column]);
+                    grid.AddWithSpan(plateViews[column], 0, column);
+                    // grid.Children.Add(plateViews[column]);
                     
 
                 }

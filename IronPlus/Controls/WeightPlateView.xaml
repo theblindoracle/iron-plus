@@ -38,8 +38,7 @@
 
             <Grid
                 x:Name="grid"
-                Grid.Column="1"
-                ColumnSpacing="4"/>
+                Grid.Column="1" />
         </Grid>
     </ContentView.Content>
 </ContentView>
