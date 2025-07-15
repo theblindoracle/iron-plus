@@ -64,15 +64,13 @@ jobs:
     
       - name: Restore nuget packages
         run: |
-          # cd 6.0/Apps/WeatherTwentyOne/src/
           dotnet restore iron-plus.sln
         
         # https://docs.microsoft.com/en-us/dotnet/maui/ios/deployment/overview
       - name : Build iOS App
         shell: bash
         run: |
-          # cd 6.0/Apps/WeatherTwentyOne/src
-          dotnet build -f net9.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true /p:ArchiveOnBuild=false
+          dotnet build -f net8.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true /p:ArchiveOnBuild=false
 
 #       - name: Build and Run UnitTests
 #         shell: bash
@@ -84,5 +82,5 @@ jobs:
         with:
           name: artifacts-ios
           path: |
-            IronPlus/bin/Debug/net9.0-ios/iossimulator-x64/**/*.app
+            IronPlus/bin/Debug/net8.0-ios/iossimulator-x64/**/*.app
       
