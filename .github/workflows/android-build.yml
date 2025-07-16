@@ -11,7 +11,7 @@ jobs:
 
     env:
       KEYSTORE_PATH: release.keystore
-      KEY_ALIAS: ${{ secrets.ANDROID_KEYCHAIN_ALIAS }}
+      KEY_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
     steps:
@@ -34,10 +34,14 @@ jobs:
 
       - name: Publish AAB
         run: dotnet publish IronPlus/IronPlus.csproj -c Release -f:net8.0-android -o output
+        
+      - name: Download bundletool
+        run: |
+          curl -L -o bundletool.jar https://github.com/google/bundletool/releases/download/1.15.0/bundletool-all-1.15.0.jar
 
       - name: Convert AAB to signed APK
         run: |
-          bundletool build-apks \
+          java -jar bundletool.jar build-apks \
             --bundle=output/*.aab \
             --output=output/app.apks \
             --mode=universal \
