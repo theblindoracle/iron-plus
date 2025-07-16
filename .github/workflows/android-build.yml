@@ -47,7 +47,7 @@ jobs:
       - name: Convert AAB to signed APK
         run: |
           java -jar bundletool.jar build-apks \
-            --bundle=output/*.aab \
+            --bundle=output/com.napesdev.ironplus.aab \
             --output=output/app.apks \
             --mode=universal \
             --overwrite \
