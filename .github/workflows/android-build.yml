@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-15  
 
     env:
-      KEYSTORE_PATH: ${{ secrets.ANDROID_KEYSTORE }}
+      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
       KEY_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
@@ -39,6 +39,10 @@ jobs:
         run: |
           curl -L -o bundletool.jar https://github.com/google/bundletool/releases/download/1.15.0/bundletool-all-1.15.0.jar
 
+      - name: Convert base64 to jks
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 -d > "keystore.jks"
+      
       - name: Convert AAB to signed APK
         run: |
           java -jar bundletool.jar build-apks \
@@ -46,7 +50,7 @@ jobs:
             --output=output/app.apks \
             --mode=universal \
             --overwrite \
-            --ks=$KEYSTORE_PATH \
+            --ks=keystore.jks \
             --ks-key-alias=$KEY_ALIAS \
             --ks-pass=pass:$KEYSTORE_PASSWORD \
             --key-pass=pass:$KEYSTORE_PASSWORD
