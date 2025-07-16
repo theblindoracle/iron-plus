@@ -9,6 +9,11 @@ jobs:
   build-android:
     runs-on: macos-15  
 
+    env:
+      KEYSTORE_PATH: release.keystore
+      KEY_ALIAS: ${{ secrets.ANDROID_KEYCHAIN_ALIAS }}
+      KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -27,11 +32,24 @@ jobs:
       - name: Build Android app
         run: dotnet build IronPlus/IronPlus.csproj -c Release -f:net8.0-android /p:AndroidPackageFormat=aab
 
-      - name: Publish APK
+      - name: Publish AAB
         run: dotnet publish IronPlus/IronPlus.csproj -c Release -f:net8.0-android -o output
+
+      - name: Convert AAB to signed APK
+        run: |
+          bundletool build-apks \
+            --bundle=output/*.aab \
+            --output=output/app.apks \
+            --mode=universal \
+            --overwrite \
+            --ks=$KEYSTORE_PATH \
+            --ks-key-alias=$KEY_ALIAS \
+            --ks-pass=pass:$KEYSTORE_PASSWORD \
+            --key-pass=pass:$KEYSTORE_PASSWORD
+          unzip output/app.apks -d output/apks
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-app
-          path: output/**/*.aab
+          path: output
