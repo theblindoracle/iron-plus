@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-15  
 
     env:
-      KEYSTORE_PATH: release.keystore
+      KEYSTORE_PATH: ${{ secrets.ANDROID_KEYSTORE }}
       KEY_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
