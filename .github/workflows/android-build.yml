@@ -1,0 +1,37 @@
+name: Build Android App
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-android:
+    runs-on: macos-15  
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Restore dependencies
+        run: dotnet restore IronPlus/IronPlus.csproj
+
+      - name: Build Android app
+        run: dotnet build IronPlus/IronPlus.csproj -c Release -f:net8.0-android /p:AndroidPackageFormat=aab
+
+      - name: Publish APK
+        run: dotnet publish IronPlus/IronPlus.csproj -c Release -f:net8.0-android -o output
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-app
+          path: output/**/*.aab
