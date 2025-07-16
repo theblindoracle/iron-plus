@@ -1,4 +1,4 @@
-name: macOSCI
+name: Build iOS
 
 on:
   push:
@@ -60,7 +60,7 @@ jobs:
         run: |
           dotnet nuget locals all --clear 
           dotnet workload install maui 
-          dotnet workload install android ios maccatalyst tvos macos maui wasm-tools
+          dotnet workload install ios maccatalyst tvos macos maui
     
       - name: Restore nuget packages
         run: |
