@@ -10,9 +10,10 @@ jobs:
     runs-on: macos-15  
 
     env:
-      KEYSTORE_BASE64: ${{ vars.ANDROID_KEYSTORE }}
-      KEY_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
+      KEY_ALIAS: ${{ vars.ANDROID_KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
     steps:
       - name: Checkout source
@@ -41,7 +42,7 @@ jobs:
 
       - name: Convert base64 to jks
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > "keystore.jks"
+          echo "$KEYSTORE_BASE64" | base64 -d > release.keystore
       
       - name: Convert AAB to signed APK
         run: |
@@ -50,10 +51,10 @@ jobs:
             --output=output/app.apks \
             --mode=universal \
             --overwrite \
-            --ks=keystore.jks \
+            --ks=release.keystore \
             --ks-key-alias=$KEY_ALIAS \
             --ks-pass=pass:$KEYSTORE_PASSWORD \
-            --key-pass=pass:$KEYSTORE_PASSWORD
+            --key-pass=pass:$KEY_PASSWORD
           unzip output/app.apks -d output/apks
 
       - name: Upload build artifact
