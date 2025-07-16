@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-15  
 
     env:
-      KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
+      KEYSTORE_BASE64: ${{ env.ANDROID_KEYSTORE }}
       KEY_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
 
