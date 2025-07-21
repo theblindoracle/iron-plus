@@ -309,6 +309,7 @@
                 <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
                 <Setter Property="Stroke" Value="{AppThemeBinding Dark='#af4448', Light='#c13d43'}" />
                 <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="SegmentHeight" Value="52" />
                 <Setter Property="SelectionIndicatorSettings"
                         Value="{StaticResource SelectionIndicatorSettingsStyle}" />
 
