@@ -99,13 +99,12 @@
             <!--  Control Templates  -->
 
             <ControlTemplate x:Key="RadioButtonTemplate">
-                <Frame
-                    x:Name="frame"
+                <Border
+                    x:Name="border"
                     Padding="0"
                     BackgroundColor="{x:AppThemeBinding Dark={StaticResource DialogBackgroundDark},
                                                       Light={StaticResource DialogBackgroundLight}}"
-                    CornerRadius="5"
-                    HasShadow="False"
+                    StrokeShape="RoundRectangle 5"
                     HeightRequest="56"
                     HorizontalOptions="FillAndExpand">
                     <Grid
@@ -140,14 +139,14 @@
                             <VisualStateGroup x:Name="CheckedStates">
                                 <VisualState x:Name="Checked">
                                     <VisualState.Setters>
-                                        <Setter TargetName="frame" Property="BorderColor"
+                                        <Setter TargetName="border" Property="Stroke"
                                                 Value="{x:AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
                                         <Setter TargetName="check" Property="Opacity" Value="1" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Unchecked">
                                     <VisualState.Setters>
-                                        <Setter TargetName="frame" Property="BorderColor"
+                                        <Setter TargetName="border" Property="Stroke"
                                                 Value="{x:AppThemeBinding Dark={StaticResource NeutralDark}, Light={StaticResource NeutralLight}}" />
                                         <Setter TargetName="check" Property="Opacity" Value="0" />
                                     </VisualState.Setters>
@@ -155,7 +154,7 @@
                             </VisualStateGroup>
                         </VisualStateGroupList>
                     </VisualStateManager.VisualStateGroups>
-                </Frame>
+                </Border>
             </ControlTemplate>
 
             <DataTemplate x:Key="InstructionsDataTemplate">
@@ -295,17 +294,17 @@
                 SelectionIndicatorPlacement="Fill"
                 Background="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
 
-            <Style x:Key="SegmentedControlTextStyle" TargetType="buttons:SegmentTextStyle">
-                <Setter Property="FontFamily" Value="{StaticResource Rubik}"></Setter>
-                <Setter Property="TextColor"
-                        Value="{AppThemeBinding Dark={StaticResource UnselectedDark}, Light={StaticResource UnselectedLight}}" />
-                <Setter Property="FontSize" Value="18" />
-            </Style>
 
             <Style x:Key="SegmentedControlStyle" TargetType="buttons:SfSegmentedControl">
                 <Setter Property="SegmentBackground"
                         Value="{AppThemeBinding Dark={StaticResource PrimaryBackgroundDark}, Light={StaticResource PrimaryBackgroundLight}}" />
-                <Setter Property="TextStyle" Value="{StaticResource SegmentedControlTextStyle}"></Setter>
+                <Setter Property="TextStyle">
+                    <buttons:SegmentTextStyle FontFamily="{StaticResource Rubik}"
+                                              TextColor="{AppThemeBinding Dark={StaticResource UnselectedDark}, Light={StaticResource UnselectedLight}}"
+                                              FontSize="18">
+                    </buttons:SegmentTextStyle>
+                </Setter>
+
                 <Setter Property="CornerRadius" Value="{DynamicResource CornerRadius}" />
                 <Setter Property="Stroke" Value="{AppThemeBinding Dark='#af4448', Light='#c13d43'}" />
                 <Setter Property="StrokeThickness" Value="1" />
