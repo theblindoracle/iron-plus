@@ -8,8 +8,8 @@ namespace IronPlus.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var args = value as Syncfusion.Maui.Inputs.SfNumericEntry.FocusRequestArgs;
-            return args.Focus;
+            var args = value as FocusEventArgs;
+            return args.IsFocused;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

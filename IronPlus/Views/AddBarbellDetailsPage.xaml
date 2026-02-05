@@ -57,7 +57,7 @@
                         <behaviors:EventToCommandBehavior
                             Command="{Binding AutofillKilogramWeightCommand}"
                             Converter="{StaticResource FocusChangedConverter}"
-                            EventName="FocusChanged" />
+                            EventName="Unfocused" />
                     </numericInput:SfNumericEntry.Behaviors>
                 </numericInput:SfNumericEntry>
             </inputLayout:SfTextInputLayout>
@@ -76,7 +76,7 @@
                         <behaviors:EventToCommandBehavior
                             Command="{Binding AutofillPoundWeightCommand}"
                             Converter="{StaticResource FocusChangedConverter}"
-                            EventName="FocusChanged" />
+                            EventName="Unfocused" />
                     </numericInput:SfNumericEntry.Behaviors>
                 </numericInput:SfNumericEntry>
             </inputLayout:SfTextInputLayout>
