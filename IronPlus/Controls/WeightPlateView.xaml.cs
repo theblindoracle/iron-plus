@@ -4,6 +4,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Controls.Compatibility;
 using Microsoft.Maui.Graphics;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Shapes;
 using BindableProperty = Microsoft.Maui.Controls.BindableProperty;
 using ColumnDefinition = Microsoft.Maui.Controls.ColumnDefinition;
 using ContentView = Microsoft.Maui.Controls.ContentView;
@@ -286,21 +287,17 @@ namespace IronPlus.Controls
                 {
                     grid.AddWithSpan(collar, 0, column);
                     // grid.Children.Add(collar);
-
-                    
                 }
                 else
                 {
                     grid.AddWithSpan(plateViews[column], 0, column);
                     // grid.Children.Add(plateViews[column]);
-                    
-
                 }
 
             }
         }
 
-        Frame CreatePlateView(Plate plate, int plateNumber)
+        Border CreatePlateView(Plate plate, int plateNumber)
         {
 
             var label = new Label()
@@ -314,8 +311,6 @@ namespace IronPlus.Controls
                 LineBreakMode = LineBreakMode.WordWrap,
                 MaxLines = 1,
                 WidthRequest = plateWidth,
-
-
             };
 
 
@@ -342,37 +337,36 @@ namespace IronPlus.Controls
                 grid.Children.Add(plateNumberLabel);
             }
 
-            var frame = new Frame()
+            var border = new Border()
             {
                 HorizontalOptions = LayoutOptions.Center,
                 VerticalOptions = LayoutOptions.Center,
-                HasShadow = false,
-                BorderColor = Colors.Black,
+                Stroke = Colors.Black,
+                StrokeShape = new RoundRectangle()
+                {
+                    CornerRadius = 5
+                },
                 BackgroundColor = plate.BackgroundColorLight,
-                CornerRadius = 5,
                 Padding = 0,
                 HeightRequest = plate.Height,
                 WidthRequest = plateWidth,
                 Content = grid,
             };
 
-
-
             // if (plate.BackgroundColorDark != Color.Default)
             //     frame.SetAppThemeColor(Frame.BackgroundColorProperty, plate.BackgroundColorLight, plate.BackgroundColorDark);
 
 
-            return frame;
+            return border;
         }
 
 
-
-        class CollarView : Grid
+        class CollarView : Border
         {
             int collarTextWidth = 70;
             int plateWidth = 40;
 
-            Frame frame;
+            Border frame;
             Label textLabel;
 
             public CollarView(Plate collar)
@@ -391,27 +385,25 @@ namespace IronPlus.Controls
                 };
 
 
-
-                frame = new Frame()
+                HorizontalOptions = LayoutOptions.Start;
+                VerticalOptions = LayoutOptions.Center;
+                Stroke = Colors.Black;
+                BackgroundColor = collar.BackgroundColorLight;
+                StrokeShape = new RoundRectangle
                 {
-                    HorizontalOptions = LayoutOptions.Start,
-                    VerticalOptions = LayoutOptions.Center,
-                    HasShadow = false,
-                    BorderColor = Colors.Black,
-                    BackgroundColor = collar.BackgroundColorLight,
-                    CornerRadius = 5,
-                    Padding = 0,
-                    HeightRequest = collar.Height,
-                    WidthRequest = plateWidth
+                    CornerRadius = new CornerRadius(5)
                 };
-
+                Padding = 0;
+                HeightRequest = collar.Height;
+                WidthRequest = plateWidth;
+                Content = textLabel;
 
                 // if (collar.BackgroundColorDark != Color.Default)
                 //     frame.SetAppThemeColor(Frame.BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
 
 
-                Children.Add(frame);
-                Children.Add(textLabel);
+                // Children.Add(frame);
+                // Children.Add(textLabel);
 
                 PropertyChanged += Grid_PropertyChanged;
             }
