@@ -13,7 +13,8 @@ namespace IronPlus.ViewModels
             Title = "About";
 
             Header1 = "About the Developer:";
-            Body1 = "My name is Travis Napier and I am a software developer and a 110kg powerlifter. I started writing this app for myself as a personal project. I later found that this could be helpful for other lifters as well. This app is made by powerlifters, for powerlifters. If you have anything that you would like to see added, reach out to me at napesdotnet@gmail.com or on Instagram, @napier.lifts. ";
+            Body1 =
+                "My name is Travis Napier. I am a software developer and a I've been powerlifting since 2019. I started writing this app for myself as a personal project. I later found that this could be helpful for other lifters as well. This app is made by powerlifters, for powerlifters. If you have anything that you would like to see added, reach out to me at support@napes.dev or on Instagram, @napes.lifts. ";
         }
 
         string header1;
