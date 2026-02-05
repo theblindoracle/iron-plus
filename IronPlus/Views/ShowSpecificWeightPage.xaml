@@ -22,7 +22,7 @@
     <local:BasePage.BaseContent>
         <StackLayout
             Padding="16"
-            Spacing="8"
+            Spacing="32"
             VerticalOptions="StartAndExpand">
 
              <StackLayout
