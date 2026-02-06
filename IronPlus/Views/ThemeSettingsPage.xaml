@@ -40,14 +40,6 @@
                             VerticalOptions="Center" />
                     </Grid>
                 </RadioButton.Content>
-                <RadioButton.Triggers>
-                    <DataTrigger
-                        Binding="{Binding SelectedTheme}"
-                        TargetType="RadioButton"
-                        Value="{x:Static applicationModel:AppTheme.Unspecified}">
-                        <Setter Property="IsChecked" Value="True" />
-                    </DataTrigger>
-                </RadioButton.Triggers>
             </RadioButton>
 
             <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static applicationModel:AppTheme.Light}">
@@ -72,14 +64,6 @@
                             VerticalOptions="Center" />
                     </Grid>
                 </RadioButton.Content>
-                <RadioButton.Triggers>
-                    <DataTrigger
-                        Binding="{Binding SelectedTheme}"
-                        TargetType="RadioButton"
-                        Value="{x:Static applicationModel:AppTheme.Light}">
-                        <Setter Property="IsChecked" Value="True" />
-                    </DataTrigger>
-                </RadioButton.Triggers>
             </RadioButton>
 
             <RadioButton Style="{StaticResource BaseRadioButtonTheme}" Value="{x:Static applicationModel:AppTheme.Dark}">
@@ -104,14 +88,6 @@
                             VerticalOptions="Center" />
                     </Grid>
                 </RadioButton.Content>
-                <RadioButton.Triggers>
-                    <DataTrigger
-                        Binding="{Binding SelectedTheme}"
-                        TargetType="RadioButton"
-                        Value="{x:Static applicationModel:AppTheme.Dark}">
-                        <Setter Property="IsChecked" Value="True" />
-                    </DataTrigger>
-                </RadioButton.Triggers>
             </RadioButton>
         </StackLayout>
     </local:BasePage.BaseContent>
