@@ -239,7 +239,6 @@
 
                 <Setter Property="OutlineCornerRadius" Value="{StaticResource CornerRadius}" />
                 <Setter Property="HelperLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />
-                <!-- <Setter Property="CounterLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />  -->
                 <Setter Property="ErrorLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />
                 <Setter Property="HintLabelStyle" Value="{StaticResource InputLayoutHelperLabelStyle}" />
             </Style>
@@ -314,7 +313,6 @@
 
             </Style>
 
-
             <Style x:Key="UpDownButtonSettingsStyle" TargetType="Label">
                 <Setter Property="TextColor"
                         Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" />
@@ -322,22 +320,6 @@
                 <Setter Property="FontSize" Value="48" />
                 <Setter Property="Width" Value="48" />
             </Style>
-
-
-            <!-- <Style x:Key="UpDownButtonSettingsStyle" TargetType="upDown:UpDownButtonSettings"> -->
-            <!--     <Setter Property="ButtonFontColor" Value="{AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource PrimaryLight}}" /> -->
-            <!--     <Setter Property="ButtonFontFamily" Value="{StaticResource FontAwesome}" /> -->
-            <!--     <Setter Property="ButtonFontSize" Value="48" /> -->
-            <!--     <Setter Property="ButtonHeight" Value="48" /> -->
-            <!--     <Setter Property="ButtonWidth" Value="48" /> -->
-            <!-- </Style> -->
-
-            <!-- <Style x:Key="UpDownStyle" TargetType="upDown:SfNumericUpDown"> -->
-            <!--     <Setter Property="FontFamily" Value="{StaticResource Rubik}" /> -->
-            <!--     <Setter Property="FontSize" Value="24" /> -->
-            <!--     <Setter Property="TextColor" Value="{AppThemeBinding Dark={StaticResource OnBackgroundDark}, Light={StaticResource OnBackgroundLight}}" /> -->
-            <!-- </Style> -->
-
 
             <Style
                 x:Key="HeaderLabelStyle"
