@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using CommunityToolkit.Mvvm.Messaging;
 using IronPlus.Enums;
 using IronPlus.Interfaces;
 using Microsoft.Maui;
@@ -26,7 +27,7 @@ namespace IronPlus.ViewModels
         public Command UpdateRpeChartRoundSettingCommand => updateRpeChartRoundSettingCommand ??= new Command(() =>
         {
             settingsService.RpeChartRoundSetting = SelectedValue;
-            MessagingCenter.Send(this, MessageKeys.UpdateRpeChartSettings);
+            WeakReferenceMessenger.Default.Send(new Messages.UpdateRpeChartSettingsMessage());
         });
     }
 }

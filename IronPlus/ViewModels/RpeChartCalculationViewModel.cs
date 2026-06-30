@@ -1,9 +1,8 @@
-﻿using IronPlus.Enums;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using IronPlus.Enums;
 using IronPlus.Helpers;
 using IronPlus.Interfaces;
 using IronPlus.Validation;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls;
 
 namespace IronPlus.ViewModels
 {
@@ -23,7 +22,7 @@ namespace IronPlus.ViewModels
 
             CalculateNewWeight();
 
-            MessagingCenter.Subscribe<RPEChartSettingsViewModel>(this, MessageKeys.UpdateRpeChartSettings, (sender) =>
+            WeakReferenceMessenger.Default.Register<Messages.UpdateRpeChartSettingsMessage>(this, (recipient, message) =>
             {
                 RoundToNearest = settingsService.RpeChartRoundSetting;
                 CalculateNewWeight();

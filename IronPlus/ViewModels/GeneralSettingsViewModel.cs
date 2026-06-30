@@ -1,4 +1,5 @@
 ﻿using System;
+using CommunityToolkit.Mvvm.Messaging;
 using IronPlus.Enums;
 using IronPlus.Interfaces;
 using Microsoft.Maui;
@@ -36,14 +37,14 @@ namespace IronPlus.ViewModels
         public Command UpdatePoundsRoundSettingCommand => updatePoundsRoundSettingCommand ??= new Command(() =>
         {
             settingsService.PoundsRoundSetting = SelectedPoundsRoundValue;
-            MessagingCenter.Send(this, MessageKeys.UpdateUnitConversionSettings);
+            WeakReferenceMessenger.Default.Send(new Messages.UpdateUnitConversionSettingsMessage());
         });
 
         Command updateKilogramsRoundSettingCommand;
         public Command UpdateKilogramsRoundSettingCommand => updateKilogramsRoundSettingCommand ??= new Command(() =>
         {
             settingsService.KilogramsRoundSetting = SelectedKilogramRoundValue;
-            MessagingCenter.Send(this, MessageKeys.UpdateUnitConversionSettings);
+            WeakReferenceMessenger.Default.Send(new Messages.UpdateUnitConversionSettingsMessage());
         });
     }
 }

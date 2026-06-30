@@ -1,4 +1,5 @@
-﻿using IronPlus.Enums;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using IronPlus.Enums;
 using IronPlus.Helpers;
 using IronPlus.Interfaces;
 using IronPlus.Models;
@@ -54,7 +55,7 @@ namespace IronPlus.ViewModels
 
             // CalculateConvertedValues();
 
-            MessagingCenter.Subscribe<GeneralSettingsViewModel>(this, MessageKeys.UpdateUnitConversionSettings, (sender) =>
+            WeakReferenceMessenger.Default.Register<Messages.UpdateUnitConversionSettingsMessage>(this,  (recipient, message) =>
             {
                 kilogramRoundToNearest = settingsService.KilogramsRoundSetting;
                 poundRoundToNearest = settingsService.PoundsRoundSetting;
