@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# Local secrets — do not commit
+IronPlus/Secrets.cs
+
 # User-specific files
 *.rsuser
 *.suo
