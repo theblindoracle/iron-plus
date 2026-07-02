@@ -49,6 +49,8 @@
                 Style="{StaticResource BaseTextInputLayoutStyle}">
                 <numericInput:SfNumericEntry
                     CustomFormat="0"
+                    ShowClearButton="False"
+                    SelectAllOnFocus="True"
                     Style="{StaticResource NumericInputStyle}"
                     ValueChangeMode="OnKeyFocus"
                     Value="{Binding WeightInPounds.Value}">
@@ -68,6 +70,8 @@
                 Style="{StaticResource BaseTextInputLayoutStyle}">
                 <numericInput:SfNumericEntry
                     CustomFormat="0"
+                    ShowClearButton="False"
+                    SelectAllOnFocus="True"
                     Style="{StaticResource NumericInputStyle}"
                     ValueChangeMode="OnKeyFocus"
                     Value="{Binding WeightInKilograms.Value}">

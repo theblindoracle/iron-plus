@@ -103,6 +103,7 @@
                             Style="{DynamicResource BaseTextInputLayoutStyle}">
                             <numericInput:SfNumericEntry
                                 ShowClearButton="False"
+                                SelectAllOnFocus="True"
                                 CustomFormat="n2"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding HaveWeight.Value}">
@@ -123,6 +124,7 @@
                             <numericInput:SfNumericEntry
                                 CustomFormat="0"
                                 ShowClearButton="False"
+                                SelectAllOnFocus="True"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding HaveReps.Value}">
                                 <numericInput:SfNumericEntry.Behaviors>
@@ -140,6 +142,7 @@
                             Style="{DynamicResource BaseTextInputLayoutStyle}">
                             <numericInput:SfNumericEntry
                                 ShowClearButton="False"
+                                SelectAllOnFocus="True"
                                 CustomFormat="0.0"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding HaveRpe.Value}">
@@ -175,6 +178,7 @@
                                 UpDownButtonAlignment="Both"
                                 UpDownPlacementMode="Inline"
                                 ShowClearButton="False"
+                                SelectAllOnFocus="True"
                                 HorizontalTextAlignment="Center"
                                 Style="{StaticResource NumericInputStyle}"
                                 Value="{Binding WantReps.Value}">
@@ -223,6 +227,7 @@
                                 UpDownButtonAlignment="Both"
                                 UpDownPlacementMode="Inline"
                                 ShowClearButton="False"
+                                SelectAllOnFocus="True"
                                 HorizontalTextAlignment="Center"
                                 SmallChange="0.5"
                                 Style="{StaticResource NumericInputStyle}"

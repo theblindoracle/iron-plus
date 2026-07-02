@@ -66,6 +66,8 @@
                         <numericInput:SfNumericEntry
                             CustomFormat="n"
                             Minimum="1"
+                            ShowClearButton="False"
+                            SelectAllOnFocus="True"
                             Style="{DynamicResource NumericInputStyle}"
                             Value="{Binding TopSetWeight.Value, Mode=TwoWay}">
                             <numericInput:SfNumericEntry.Behaviors>
