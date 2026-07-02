@@ -1,15 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Maui;
-using Microsoft.Maui.Controls.Compatibility;
-using Microsoft.Maui.Graphics;
-using Microsoft.Maui.Controls;
-using Microsoft.Maui.Controls.Shapes;
+﻿using Microsoft.Maui.Controls.Shapes;
 using BindableProperty = Microsoft.Maui.Controls.BindableProperty;
 using ColumnDefinition = Microsoft.Maui.Controls.ColumnDefinition;
 using ContentView = Microsoft.Maui.Controls.ContentView;
-using Frame = Microsoft.Maui.Controls.Frame;
-using Grid = Microsoft.Maui.Controls.Compatibility.Grid;
+using Grid = Microsoft.Maui.Controls.Grid;
 using Label = Microsoft.Maui.Controls.Label;
 using LayoutOptions = Microsoft.Maui.Controls.LayoutOptions;
 
@@ -262,7 +255,6 @@ namespace IronPlus.Controls
                 if (plate.PlateType != PlateType.Collar)
                 {
                     plateViews.Add(CreatePlateView(plate, plateNumber));
-
                 }
                 else
                 {
@@ -349,13 +341,12 @@ namespace IronPlus.Controls
                 BackgroundColor = plate.BackgroundColorLight,
                 Padding = 0,
                 HeightRequest = plate.Height,
-                WidthRequest = plateWidth,
+                // WidthRequest = plateWidth,
+                MaximumWidthRequest =  plateWidth,
                 Content = grid,
             };
 
-            // if (plate.BackgroundColorDark != Color.Default)
-            //     frame.SetAppThemeColor(Frame.BackgroundColorProperty, plate.BackgroundColorLight, plate.BackgroundColorDark);
-
+            border.SetAppThemeColor(BackgroundColorProperty, plate.BackgroundColorLight, plate.BackgroundColorDark);
 
             return border;
         }
@@ -366,7 +357,7 @@ namespace IronPlus.Controls
             int collarTextWidth = 70;
             int plateWidth = 40;
 
-            Border frame;
+            private Border border = new();
             Label textLabel;
 
             public CollarView(Plate collar)
@@ -398,9 +389,7 @@ namespace IronPlus.Controls
                 WidthRequest = plateWidth;
                 Content = textLabel;
 
-                // if (collar.BackgroundColorDark != Color.Default)
-                //     frame.SetAppThemeColor(Frame.BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
-
+                border.SetAppThemeColor(BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
 
                 // Children.Add(frame);
                 // Children.Add(textLabel);
