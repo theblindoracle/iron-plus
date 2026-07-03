@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="999" android:versionName="9.9" package="com.napesdev.ironplus">
 	<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="36" />
-	<application android:label="Iron Sport" android:icon="@mipmap/ic_launcher"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<application android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" />
 	<queries>
 		<intent>
 			<action android:name="android.intent.action.VIEW" />
