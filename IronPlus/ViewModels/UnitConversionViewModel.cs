@@ -246,31 +246,28 @@ namespace IronPlus.ViewModels
 
         void SetUpConvertFromKilogramsToPounds()
         {
+            BeginBatch();
             IsConvertToKilograms = false;
             UpdateValueToConvertValidations();
             ConversionTypeControlIndex = 1;
             ConvertFromSuffix = "KG";
             ConvertToSuffix = "LB";
             if (convertedValue != 0)
-            {
                 ValueToConvert.Value = ConvertedValueRounded;
-            }
+            EndBatch();
         }
 
         void SetUpConvertFromPoundsToKilograms()
         {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                IsConvertToKilograms = true;
-                UpdateValueToConvertValidations();
-                ConversionTypeControlIndex = 0;
-                ConvertFromSuffix = "LB";
-                ConvertToSuffix = "KG";
-                if (convertedValue != 0)
-                {
-                    ValueToConvert.Value = ConvertedValueRounded;
-                }
-            });
+            BeginBatch();
+            IsConvertToKilograms = true;
+            UpdateValueToConvertValidations();
+            ConversionTypeControlIndex = 0;
+            ConvertFromSuffix = "LB";
+            ConvertToSuffix = "KG";
+            if (convertedValue != 0)
+                ValueToConvert.Value = ConvertedValueRounded;
+            EndBatch();
         }
 
         void CalculateConvertedValues()

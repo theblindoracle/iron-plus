@@ -7,6 +7,9 @@ namespace IronPlus.ViewModels.Base
 {
     public abstract class ExtendedBindableObject : INotifyPropertyChanged
     {
+        bool _isBatching = false;
+        readonly HashSet<string> _pendingNotifications = new();
+
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null)
@@ -20,15 +23,27 @@ namespace IronPlus.ViewModels.Base
             return true;
         }
 
+        protected void BeginBatch() => _isBatching = true;
+
+        protected void EndBatch()
+        {
+            _isBatching = false;
+            foreach (var name in _pendingNotifications)
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            _pendingNotifications.Clear();
+        }
+
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            var changed = PropertyChanged;
-            if (changed == null)
+            if (_isBatching)
+            {
+                _pendingNotifications.Add(propertyName);
                 return;
+            }
 
-            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
     }

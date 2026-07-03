@@ -72,10 +72,18 @@ namespace IronPlus.Controls
 
 
 
+        bool _loadBarPending = false;
+
         void LoadBar()
         {
-            var plates = CalculateNeededPlates();
-            CreatePlateView(plates);
+            if (_loadBarPending) return;
+            _loadBarPending = true;
+
+            Dispatcher.Dispatch(() =>
+            {
+                _loadBarPending = false;
+                CreatePlateView(CalculateNeededPlates());
+            });
         }
 
         List<Plate> CalculateNeededPlates()
@@ -224,14 +232,14 @@ namespace IronPlus.Controls
             return plates;
         }
 
-        readonly int plateWidth = 40;
+        const int PlateWidth = 40;
 
         void CreatePlateView(List<Plate> plates)
         {
-
             grid.Children.Clear();
             grid.ColumnDefinitions.Clear();
 
+            var labelStyle = (Style)Application.Current.Resources["BaseLabelStyle"];
             var plateViews = new List<View>();
 
             for (int index = 0; index < plates.Count; index++)
@@ -247,51 +255,36 @@ namespace IronPlus.Controls
                     grid.ColumnDefinitions.Insert(index, new ColumnDefinition() { Width = GridLength.Star });
                 }
 
-                int plateNumber = 0;
+                var plateNumber = 0;
                 if ((plate.Weight == "25" && plate.PlateType == PlateType.Kilogram) ||
                     (plate.Weight == "45" && plate.PlateType == PlateType.Pound))
                     plateNumber = index + 1;
 
                 if (plate.PlateType != PlateType.Collar)
                 {
-                    plateViews.Add(CreatePlateView(plate, plateNumber));
+                    plateViews.Add(CreatePlateView(plate, plateNumber, labelStyle));
                 }
                 else
                 {
-                    var collarView = new CollarView(plate);
-                    plateViews.Add(collarView);
+                    plateViews.Add(new CollarView(plate, labelStyle));
                 }
-
             }
 
             var spacers = 8 - plates.Count;
-
-
-            for (int plateCount = spacers; plateCount > 0; plateCount--)
-            {
+            for (var plateCount = spacers; plateCount > 0; plateCount--)
                 plateViews.Add(Spacer);
-            }
 
-            for (int column = 0; column < plateViews.Count; column++)
+            for (var column = 0; column < plateViews.Count; column++)
             {
-                var view = plateViews[column];
-                if (view is CollarView collar)
-                {
+                if (plateViews[column] is CollarView collar)
                     grid.AddWithSpan(collar, 0, column);
-                    // grid.Children.Add(collar);
-                }
                 else
-                {
                     grid.AddWithSpan(plateViews[column], 0, column);
-                    // grid.Children.Add(plateViews[column]);
-                }
-
             }
         }
 
-        Border CreatePlateView(Plate plate, int plateNumber)
+        Border CreatePlateView(Plate plate, int plateNumber, Style labelStyle)
         {
-
             var label = new Label()
             {
                 TextColor = Colors.Black,
@@ -299,14 +292,13 @@ namespace IronPlus.Controls
                 Text = plate.Weight,
                 FontSize = 18,
                 HorizontalTextAlignment = TextAlignment.Center,
-                Style = (Style)Application.Current.Resources["BaseLabelStyle"],
+                Style = labelStyle,
                 LineBreakMode = LineBreakMode.WordWrap,
                 MaxLines = 1,
-                WidthRequest = plateWidth,
+                WidthRequest = PlateWidth,
             };
 
-
-            var grid = new Grid()
+            var plateGrid = new Grid()
             {
                 Children = { label },
                 Padding = new Thickness(0, 4),
@@ -322,11 +314,11 @@ namespace IronPlus.Controls
                     Text = plateNumber.ToString(),
                     FontSize = 18,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    Style = (Style)Application.Current.Resources["BaseLabelStyle"],
+                    Style = labelStyle,
                     LineBreakMode = LineBreakMode.NoWrap
                 };
 
-                grid.Children.Add(plateNumberLabel);
+                plateGrid.Children.Add(plateNumberLabel);
             }
 
             var border = new Border()
@@ -341,9 +333,8 @@ namespace IronPlus.Controls
                 BackgroundColor = plate.BackgroundColorLight,
                 Padding = 0,
                 HeightRequest = plate.Height,
-                // WidthRequest = plateWidth,
-                MaximumWidthRequest =  plateWidth,
-                Content = grid,
+                MaximumWidthRequest =  PlateWidth,
+                Content = plateGrid,
             };
 
             border.SetAppThemeColor(BackgroundColorProperty, plate.BackgroundColorLight, plate.BackgroundColorDark);
@@ -357,10 +348,9 @@ namespace IronPlus.Controls
             int collarTextWidth = 70;
             int plateWidth = 40;
 
-            private Border border = new();
             Label textLabel;
 
-            public CollarView(Plate collar)
+            public CollarView(Plate collar, Style labelStyle)
             {
                 textLabel = new Label()
                 {
@@ -369,7 +359,7 @@ namespace IronPlus.Controls
                     Text = "Collar",
                     FontSize = 18,
                     HorizontalTextAlignment = TextAlignment.Center,
-                    Style = (Style)Application.Current.Resources["BaseLabelStyle"],
+                    Style = labelStyle,
                     LineBreakMode = LineBreakMode.NoWrap,
                     WidthRequest = collarTextWidth,
                     Rotation = -90
@@ -389,10 +379,7 @@ namespace IronPlus.Controls
                 WidthRequest = plateWidth;
                 Content = textLabel;
 
-                border.SetAppThemeColor(BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
-
-                // Children.Add(frame);
-                // Children.Add(textLabel);
+                this.SetAppThemeColor(BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
 
                 PropertyChanged += Grid_PropertyChanged;
             }
@@ -414,39 +401,37 @@ namespace IronPlus.Controls
             public PlateType PlateType { get; set; }
         }
 
-        Plate TwentyFiveKGPlate => new Plate() { Weight = "25", Height = 240, BackgroundColorLight = Color.FromHex("#ef5350"), BackgroundColorDark = Color.FromHex("#e57373"), PlateType = PlateType.Kilogram };
-        Plate TwentyKGPlate => new Plate() { Weight = "20", Height = 240, BackgroundColorLight = Color.FromHex("#42a5f5"), BackgroundColorDark = Color.FromHex("#64b5f6"), PlateType = PlateType.Kilogram };
-        Plate FifteenKGPlate => new Plate() { Weight = "15", Height = 200, BackgroundColorLight = Color.FromHex("#ffeb3b"), BackgroundColorDark = Color.FromHex("#ffee58"), PlateType = PlateType.Kilogram };
-        Plate TenKGPlate => new Plate() { Weight = "10", Height = 160, BackgroundColorLight = Color.FromHex("#4caf50"), BackgroundColorDark = Color.FromHex("#66bb6a"), PlateType = PlateType.Kilogram };
-        Plate FiveKGPlate => new Plate() { Weight = "5", Height = 120, BackgroundColorLight = Colors.White, BackgroundColorDark = Color.FromHex("#fafafa"), PlateType = PlateType.Kilogram };
-        Plate TwoAndAHalfKGPlate => new Plate() { Weight = "2.5", Height = 100, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
-        Plate TwoKGPlate => new Plate() { Weight = "2", Height = 100, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
-        Plate OneAndAHalfKGPlate => new Plate() { Weight = "1.5", Height = 85, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
-        Plate OneAndAQuarterKGPlate => new Plate() { Weight = "1.25", Height = 85, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
-        Plate OneKGPlate => new Plate() { Weight = "1", Height = 85, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
-        Plate HalfKGPlate => new Plate() { Weight = "0.5", Height = 85, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
-        Plate QuarterKGPlate => new Plate() { Weight = "0.25", Height = 85, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate TwentyFiveKGPlate = new() { Weight = "25", Height = 240, BackgroundColorLight = Color.FromArgb("#ef5350"), BackgroundColorDark = Color.FromArgb("#e57373"), PlateType = PlateType.Kilogram };
+        static readonly Plate TwentyKGPlate = new() { Weight = "20", Height = 240, BackgroundColorLight = Color.FromArgb("#42a5f5"), BackgroundColorDark = Color.FromArgb("#64b5f6"), PlateType = PlateType.Kilogram };
+        static readonly Plate FifteenKGPlate = new() { Weight = "15", Height = 200, BackgroundColorLight = Color.FromArgb("#ffeb3b"), BackgroundColorDark = Color.FromArgb("#ffee58"), PlateType = PlateType.Kilogram };
+        static readonly Plate TenKGPlate = new() { Weight = "10", Height = 160, BackgroundColorLight = Color.FromArgb("#4caf50"), BackgroundColorDark = Color.FromArgb("#66bb6a"), PlateType = PlateType.Kilogram };
+        static readonly Plate FiveKGPlate = new() { Weight = "5", Height = 120, BackgroundColorLight = Colors.White, BackgroundColorDark = Color.FromArgb("#fafafa"), PlateType = PlateType.Kilogram };
+        static readonly Plate TwoAndAHalfKGPlate = new() { Weight = "2.5", Height = 100, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate TwoKGPlate = new() { Weight = "2", Height = 100, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate OneAndAHalfKGPlate = new() { Weight = "1.5", Height = 85, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate OneAndAQuarterKGPlate = new() { Weight = "1.25", Height = 85, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate OneKGPlate = new() { Weight = "1", Height = 85, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate HalfKGPlate = new() { Weight = "0.5", Height = 85, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
+        static readonly Plate QuarterKGPlate = new() { Weight = "0.25", Height = 85, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Kilogram };
 
-        Plate FourtyFiveLBPlate => new Plate() { Weight = "45", Height = 240, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Pound };
-        Plate TwentyFiveLBPlate => new Plate() { Weight = "25", Height = 160, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Pound };
-        Plate TenLBPlate => new Plate() { Weight = "10", Height = 140, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Pound };
-        Plate FiveLBPlate => new Plate() { Weight = "5", Height = 120, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Pound };
-        Plate TwoAndAHalfLBPlate => new Plate() { Weight = "2.5", Height = 100, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Pound };
-        Plate OneAndAQuarterLBPlate => new Plate() { Weight = "1.25", Height = 80, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Pound };
+        static readonly Plate FourtyFiveLBPlate = new() { Weight = "45", Height = 240, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Pound };
+        static readonly Plate TwentyFiveLBPlate = new() { Weight = "25", Height = 160, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Pound };
+        static readonly Plate TenLBPlate = new() { Weight = "10", Height = 140, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Pound };
+        static readonly Plate FiveLBPlate = new() { Weight = "5", Height = 120, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Pound };
+        static readonly Plate TwoAndAHalfLBPlate = new() { Weight = "2.5", Height = 100, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Pound };
+        static readonly Plate OneAndAQuarterLBPlate = new() { Weight = "1.25", Height = 80, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Pound };
 
-        Plate CompetitionCollar => new Plate() { Weight = "Collar", Height = 100, BackgroundColorLight = Color.FromHex("#bdbdbd"), BackgroundColorDark = Color.FromHex("#cfcfcf"), PlateType = PlateType.Collar };
+        static readonly Plate CompetitionCollar = new() { Weight = "Collar", Height = 100, BackgroundColorLight = Color.FromArgb("#bdbdbd"), BackgroundColorDark = Color.FromArgb("#cfcfcf"), PlateType = PlateType.Collar };
 
-        Frame Spacer => new Frame()
+        Border Spacer => new()
         {
             HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
-            HasShadow = false,
-            BorderColor = Colors.Transparent,
+            Stroke = Colors.Transparent,
             Padding = 0,
             BackgroundColor = Colors.Transparent,
             HeightRequest = 240,
-            WidthRequest = plateWidth,
-
+            WidthRequest = PlateWidth,
         };
 
         enum PlateType
