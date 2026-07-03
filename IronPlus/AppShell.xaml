@@ -22,6 +22,7 @@
                 <Setter Property="Shell.NavBarHasShadow" Value="False" />
             </Style>
             <Style BasedOn="{StaticResource BaseStyle}" TargetType="TabBar">
+                <Setter Property="Shell.TabBarForegroundColor" Value="{x:AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource OnNavigationPrimaryLight}}" />
                 <Setter Property="Shell.TabBarTitleColor" Value="{x:AppThemeBinding Dark={StaticResource PrimaryDark}, Light={StaticResource OnNavigationPrimaryLight}}" />
                 <Setter Property="Shell.TabBarUnselectedColor" Value="{x:AppThemeBinding Dark={StaticResource OnNavigationPrimaryUnselectedDark}, Light={StaticResource OnNavigationPrimaryUnselectedLight}}" />
             </Style>
