@@ -60,4 +60,13 @@
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<SentryOrg>iron-plus</SentryOrg>
+		<SentryProject>iron-plus</SentryProject>
+		<SentryUploadSymbols>true</SentryUploadSymbols>
+		<SentryUploadSources>true</SentryUploadSources>
+		<SentryCreateRelease>true</SentryCreateRelease>
+		<SentrySetCommits>true</SentrySetCommits>
+	</PropertyGroup>
+
 </Project>
