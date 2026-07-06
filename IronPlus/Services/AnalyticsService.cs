@@ -8,35 +8,20 @@ namespace IronPlus.Services
 {
     public static class AnalyticsService
     {
-        public static bool Initialized { get; private set; }
-
-        public static void Init(string key)
-        {
-            // Sentry is initialized via UseSentry() in MauiProgram.cs — nothing to do here.
-            Initialized = true;
-        }
-
-        public static string InstallID => SentrySdk.LastEventId.ToString();
-
         public static void Track_App_Page(AnalyticsRequest request)
         {
-            request.EventType = AnalyticsEventType.PageView;
-            Track_App_Event(request);
+            SentrySdk.Metrics.EmitCounter("app.page_view", 1,
+                new Dictionary<string, object> { ["page"] = request.EventName });
         }
 
-        public static void Track_App_Page(string PageNameToTrack, string PageParameterName = "", string PageParameterValue = "")
+        public static void Track_App_Page(string pageNameToTrack, string pageParameterName = "", string pageParameterValue = "")
         {
-            var request = new AnalyticsRequest();
-            request.EventType = AnalyticsEventType.PageView;
-            request.EventName = PageNameToTrack;
+            var attrs = new Dictionary<string, object> { ["page"] = pageNameToTrack };
 
-            if (!string.IsNullOrEmpty(PageParameterName))
-            {
-                request.EventData = new Dictionary<string, string> {
-                { PageParameterName, PageParameterValue }};
-            }
+            if (!string.IsNullOrEmpty(pageParameterName))
+                attrs[pageParameterName] = pageParameterValue;
 
-            Track_App_Event(request);
+            SentrySdk.Metrics.EmitCounter("app.page_view", 1, attrs);
         }
 
         public static void Track_App_Event(AnalyticsRequest request)

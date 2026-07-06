@@ -28,23 +28,7 @@ namespace IronPlus.Views
 
         #region Analytics Methods
 
-        protected string PageName
-        {
-            get
-            {
-                return this.GetType().Name;
-            }
-        }
-
-        /// <summary>
-        /// Send a page view to analytics server using custom tag
-        /// </summary>
-        /// <param name="pageTag">Page tag.</param>
-        protected void Analytics_TrackPageView(string pageTag)
-        {
-            AnalyticsService.Track_App_Page(pageTag);
-        }
-
+        protected string PageName => GetType().Name;
 
         /// <summary>
         /// Send a page view to analytics server using page class name
@@ -52,7 +36,6 @@ namespace IronPlus.Views
         protected virtual void Analytics_TrackPageView()
         {
             AnalyticsService.Track_App_Page(PageName);
-
         }
 
         #endregion
