@@ -22,7 +22,7 @@ namespace IronPlus.Views
             }
             catch (Exception ex)
             {
-                AppCenterService.Track_App_Exception(ex.Message);
+                AnalyticsService.Track_App_Exception(ex.Message);
             }
         }
 
@@ -42,7 +42,7 @@ namespace IronPlus.Views
         /// <param name="pageTag">Page tag.</param>
         protected void Analytics_TrackPageView(string pageTag)
         {
-            AppCenterService.Track_App_Page(pageTag);
+            AnalyticsService.Track_App_Page(pageTag);
         }
 
 
@@ -51,7 +51,7 @@ namespace IronPlus.Views
         /// </summary>
         protected virtual void Analytics_TrackPageView()
         {
-            AppCenterService.Track_App_Page(PageName);
+            AnalyticsService.Track_App_Page(PageName);
 
         }
 
