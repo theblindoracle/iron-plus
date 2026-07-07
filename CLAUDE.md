@@ -48,6 +48,9 @@ viewmodels:ViewModelLocator.AutoWireViewModel="true"
 | `ISettingsService` | `SettingsService` | User preferences via `Preferences` API |
 | `IThemeService` | `ThemeService` | Light/dark theme management |
 | `IDialogService` | `DialogService` | User dialogs (Acr.UserDialogs) |
+| `IPlatformService` | `PlatformService` (per-platform) | Platform-specific operations (e.g. status bar color) |
+
+`AnalyticsService` is a static class (not injected) that wraps Sentry SDK calls for page views, events, and exception tracking.
 
 ### Navigation
 
@@ -74,6 +77,8 @@ Custom validation framework in `/Validation/`:
 - **sqlite-net-pcl** - SQLite ORM
 - **Acr.UserDialogs** - Cross-platform dialogs
 - **Newtonsoft.Json** - JSON serialization
+- **Sentry.Maui** - Crash reporting and analytics (replaces AppCenter)
+- **CommunityToolkit.Mvvm** - MVVM source generators and helpers
 
 ## Target Frameworks
 

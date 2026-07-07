@@ -90,7 +90,7 @@ namespace IronPlus.ViewModels
            catch (Exception ex)
            {
                errorOccured = true;
-               AppCenterService.Track_App_Exception(ex, this);
+               AnalyticsService.Track_App_Exception(ex, this);
                await dialogService.AlertAsync("An error occured while saving.", "Error");
            }
            if (!errorOccured)

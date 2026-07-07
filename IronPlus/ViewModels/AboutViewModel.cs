@@ -48,7 +48,7 @@ namespace IronPlus.ViewModels
             }
             catch (Exception ex)
             {
-                Services.AppCenterService.Track_App_Exception(ex.Message);
+                Services.AnalyticsService.Track_App_Exception(ex.Message);
             }
         });
     }

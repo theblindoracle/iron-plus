@@ -24,12 +24,6 @@ public class MainActivity : MauiAppCompatActivity
 
             base.OnCreate(savedInstanceState);
 
-#if DEBUG
-            // Inititializes with Beta Key
-            // AppCenterService.Init(Constants.AppCenterKeys.ANDROID_BETA);
-#endif
-            // AppCenterService.Init(Constants.AppCenterKeys.ANDROID_PROD);
-
             UserDialogs.Init(this);
             ViewModelLocator.RegisterSingleton<IPlatformService, PlatformService>();
 

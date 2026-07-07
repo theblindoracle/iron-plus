@@ -22,37 +22,20 @@ namespace IronPlus.Views
             }
             catch (Exception ex)
             {
-                AppCenterService.Track_App_Exception(ex.Message);
+                AnalyticsService.Track_App_Exception(ex.Message);
             }
         }
 
         #region Analytics Methods
 
-        protected string PageName
-        {
-            get
-            {
-                return this.GetType().Name;
-            }
-        }
-
-        /// <summary>
-        /// Send a page view to analytics server using custom tag
-        /// </summary>
-        /// <param name="pageTag">Page tag.</param>
-        protected void Analytics_TrackPageView(string pageTag)
-        {
-            AppCenterService.Track_App_Page(pageTag);
-        }
-
+        protected string PageName => GetType().Name;
 
         /// <summary>
         /// Send a page view to analytics server using page class name
         /// </summary>
         protected virtual void Analytics_TrackPageView()
         {
-            AppCenterService.Track_App_Page(PageName);
-
+            AnalyticsService.Track_App_Page(PageName);
         }
 
         #endregion

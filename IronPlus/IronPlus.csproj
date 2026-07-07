@@ -45,7 +45,7 @@
 	<ItemGroup>
 		<PackageReference Include="Acr.UserDialogs" Version="9.1.0" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-<!--		<PackageReference Include="Microsoft.AppCenter" Version="5.0.6" />-->
+		<PackageReference Include="Sentry.Maui" Version="6.6.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -59,5 +59,14 @@
 	<ItemGroup>
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<SentryOrg>iron-plus</SentryOrg>
+		<SentryProject>iron-plus</SentryProject>
+		<SentryUploadSymbols>true</SentryUploadSymbols>
+		<SentryUploadSources>true</SentryUploadSources>
+		<SentryCreateRelease>true</SentryCreateRelease>
+		<SentrySetCommits>true</SentrySetCommits>
+	</PropertyGroup>
 
 </Project>
