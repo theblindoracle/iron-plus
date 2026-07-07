@@ -14,7 +14,7 @@
 		<ApplicationTitle>Iron Plus</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.napesdev.ironplus</ApplicationId>
+		<ApplicationId>com.ironplusdev.ironplus</ApplicationId>
 		<ApplicationId Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">com.napesdotnet.ironplus</ApplicationId>
 
 		<!-- Versions -->
@@ -23,6 +23,10 @@
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+
+		<!-- Native AOT for iOS: enables trimming/AOT analyzers on all platforms and AOT compilation on publish -->
+		<IsAotCompatible>true</IsAotCompatible>
+		<PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</PublishAot>
 	</PropertyGroup>
 
 	<ItemGroup>

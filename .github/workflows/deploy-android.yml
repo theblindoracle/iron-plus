@@ -47,7 +47,7 @@ jobs:
       - name: Convert AAB to signed APK
         run: |
           java -jar bundletool.jar build-apks \
-            --bundle=output/com.napesdev.ironplus.aab \
+            --bundle=output/com.ironplusdev.ironplus.aab \
             --output=output/app.apks \
             --mode=universal \
             --overwrite \
@@ -88,6 +88,6 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJson: ${{ steps.auth.outputs.credentials_file_path }}
-          packageName: com.napesdev.ironplus
-          releaseFiles: output/com.napesdev.ironplus.aab
-          track: internal
+          packageName: com.ironplusdev.ironplus
+          releaseFiles: output/com.ironplusdev.ironplus.aab
+          tracks: internal
