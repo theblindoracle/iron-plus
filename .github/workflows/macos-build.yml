@@ -15,6 +15,7 @@ jobs:
     env:
       SYNCFUSION_KEY: ${{ secrets.SYNCFUSION_KEY }}
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -68,10 +69,15 @@ jobs:
           dotnet restore iron-plus.sln
         
         # https://docs.microsoft.com/en-us/dotnet/maui/ios/deployment/overview
-      - name : Build iOS App
+      - name: Build iOS App
         shell: bash
         run: |
-          dotnet build -f net10.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true /p:ArchiveOnBuild=false
+          dotnet publish IronPlus/IronPlus.csproj \
+            -f net10.0-ios \
+            -c Release \
+            -r ios-arm64 \
+            /p:CodesignKey="${{ secrets.SIGNING_IDENTITY }}" \
+            /p:CodesignProvision="${{ secrets.PROVISIONING_PROFILE_UUID }}"
 
 #       - name: Build and Run UnitTests
 #         shell: bash
@@ -83,5 +89,5 @@ jobs:
         with:
           name: artifacts-ios
           path: |
-            IronPlus/bin/Debug/net8.0-ios/iossimulator-x64/**/*.app
+            IronPlus/bin/Release/net10.0-ios/ios-arm64/publish/*.ipa
       
