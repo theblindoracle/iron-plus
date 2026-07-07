@@ -85,8 +85,6 @@
 		       Text="SYNCFUSION_KEY is not set. Add it to secrets.local.props or export SYNCFUSION_KEY." />
 		<Error Condition="'$(_SentryDsn)'     == ''"
 		       Text="SENTRY_DSN is not set. Add it to secrets.local.props or export SENTRY_DSN." />
-		<Error Condition="'$(Configuration)' == 'Release' AND '$(SENTRY_AUTH_TOKEN)' == ''"
-		       Text="SENTRY_AUTH_TOKEN is not set. Required for Release builds to upload symbols to Sentry." />
 
 		<ItemGroup>
 			<_SecretsLines Include="namespace IronPlus%3B" />
@@ -101,6 +99,11 @@
 		    File="$(MSBuildProjectDirectory)/Secrets.cs"
 		    Lines="@(_SecretsLines)"
 		    Overwrite="true" />
+	</Target>
+
+	<Target Name="ValidateSentryAuth" AfterTargets="GenerateSecrets">
+		<Error Condition="'$(Configuration)' == 'Release' AND '$(SENTRY_AUTH_TOKEN)' == ''"
+		       Text="SENTRY_AUTH_TOKEN is not set. Required for Release builds to upload symbols to Sentry." />
 	</Target>
 
 </Project>
