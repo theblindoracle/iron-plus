@@ -8,9 +8,6 @@ on:
 
   workflow_dispatch:
 
-env:
-    DOTNETVERSION: 8.0.412
-
 jobs:
   buildiOS:
     runs-on: macos-15
@@ -49,12 +46,12 @@ jobs:
           # apply provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-          
-      - name: Setup .NET SDK ${{env.DOTNETVERSION}}
+
+      - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version:  '${{env.DOTNETVERSION}}'
-
+          dotnet-version: '10.0.x'
+          
       - name: Install .NET MAUI
         shell: bash
         run: |
@@ -70,7 +67,7 @@ jobs:
       - name : Build iOS App
         shell: bash
         run: |
-          dotnet build -f net8.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true /p:ArchiveOnBuild=false
+          dotnet build -f net10.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true /p:ArchiveOnBuild=false
 
 #       - name: Build and Run UnitTests
 #         shell: bash
