@@ -61,6 +61,11 @@
 	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
+	<!-- Secrets.cs is generated at build time and gitignored; exclude it from the static glob -->
+	<ItemGroup>
+		<Compile Remove="Secrets.cs" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
 		<SentryOrg>iron-plus</SentryOrg>
 		<SentryProject>iron-plus</SentryProject>
@@ -99,6 +104,10 @@
 		    File="$(MSBuildProjectDirectory)/Secrets.cs"
 		    Lines="@(_SecretsLines)"
 		    Overwrite="true" />
+
+		<ItemGroup>
+			<Compile Include="$(MSBuildProjectDirectory)/Secrets.cs" />
+		</ItemGroup>
 	</Target>
 
 	<Target Name="ValidateSentryAuth" AfterTargets="GenerateSecrets">
