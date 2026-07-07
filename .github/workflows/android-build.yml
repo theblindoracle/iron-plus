@@ -10,6 +10,8 @@ jobs:
     runs-on: macos-15  
 
     env:
+      SYNCFUSION_KEY: ${{ secrets.SYNCFUSION_KEY }}
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE }}
       KEY_ALIAS: ${{ vars.ANDROID_KEYSTORE_ALIAS }}
       KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}

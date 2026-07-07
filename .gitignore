@@ -8,6 +8,7 @@
 
 # Local secrets — do not commit
 IronPlus/Secrets.cs
+secrets.local.props
 
 # User-specific files
 *.rsuser

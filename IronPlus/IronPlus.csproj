@@ -69,4 +69,35 @@
 		<SentrySetCommits>true</SentrySetCommits>
 	</PropertyGroup>
 
+	<!-- Import local secrets if present (gitignored) -->
+	<Import Project="$(MSBuildProjectDirectory)/../secrets.local.props"
+	        Condition="Exists('$(MSBuildProjectDirectory)/../secrets.local.props')" />
+
+	<Target Name="GenerateSecrets" BeforeTargets="BeforeBuild">
+		<PropertyGroup>
+			<!-- Fall back to environment variables when props file is absent (CI) -->
+			<_SyncfusionKey Condition="'$(_SyncfusionKey)' == ''">$(SYNCFUSION_KEY)</_SyncfusionKey>
+			<_SentryDsn     Condition="'$(_SentryDsn)'     == ''">$(SENTRY_DSN)</_SentryDsn>
+		</PropertyGroup>
+
+		<Error Condition="'$(_SyncfusionKey)' == ''"
+		       Text="SYNCFUSION_KEY is not set. Add it to secrets.local.props or export SYNCFUSION_KEY." />
+		<Error Condition="'$(_SentryDsn)'     == ''"
+		       Text="SENTRY_DSN is not set. Add it to secrets.local.props or export SENTRY_DSN." />
+
+		<ItemGroup>
+			<_SecretsLines Include="namespace IronPlus%3B" />
+			<_SecretsLines Include="internal static class Secrets" />
+			<_SecretsLines Include="{" />
+			<_SecretsLines Include="    internal const string SyncfusionKey = &quot;$(_SyncfusionKey)&quot;%3B" />
+			<_SecretsLines Include="    internal const string SentryDsn = &quot;$(_SentryDsn)&quot;%3B" />
+			<_SecretsLines Include="}" />
+		</ItemGroup>
+
+		<WriteLinesToFile
+		    File="$(MSBuildProjectDirectory)/Secrets.cs"
+		    Lines="@(_SecretsLines)"
+		    Overwrite="true" />
+	</Target>
+
 </Project>
