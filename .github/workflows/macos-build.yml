@@ -10,7 +10,7 @@ on:
 
 jobs:
   buildiOS:
-    runs-on: macos-15
+    runs-on: macos-26
 
     env:
       SYNCFUSION_KEY: ${{ secrets.SYNCFUSION_KEY }}
