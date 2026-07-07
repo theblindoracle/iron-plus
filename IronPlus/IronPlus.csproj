@@ -15,6 +15,7 @@
 
 		<!-- App Identifier -->
 		<ApplicationId>com.napesdev.ironplus</ApplicationId>
+		<ApplicationId Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">com.napesdotnet.ironplus</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
