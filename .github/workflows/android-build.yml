@@ -39,6 +39,9 @@ jobs:
       - name: Publish AAB
         run: dotnet publish IronPlus/IronPlus.csproj -c Release -f:net10.0-android -o output /p:AndroidPackageFormat=aab
 
+      - name: List output directory
+        run: find output -type f
+
       - name: Download bundletool
         run: |
           curl -L -o bundletool.jar https://github.com/google/bundletool/releases/download/1.15.0/bundletool-all-1.15.0.jar
