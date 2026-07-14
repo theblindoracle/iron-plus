@@ -15,6 +15,7 @@
 
 		<!-- App Identifier -->
 		<ApplicationId>com.ironplusdev.ironplus</ApplicationId>
+		<ApplicationId Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">com.ironplusdev.ironplus</ApplicationId>
 		<ApplicationId Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">com.napesdotnet.ironplus</ApplicationId>
 
 		<!-- Versions -->
@@ -26,7 +27,7 @@
 
 		<!-- Native AOT for iOS: enables trimming/AOT analyzers on all platforms and AOT compilation on publish -->
 		<IsAotCompatible>true</IsAotCompatible>
-		<PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</PublishAot>
+		<PublishAot>true</PublishAot>
 	</PropertyGroup>
 
 	<ItemGroup>

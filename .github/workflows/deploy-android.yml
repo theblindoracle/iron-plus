@@ -52,5 +52,5 @@ jobs:
         with:
           serviceAccountJson: ${{ steps.auth.outputs.credentials_file_path }}
           packageName: com.ironplusdev.ironplus
-          releaseFiles: output/com.ironplusdev.ironplus.aab
+          releaseFiles: output/*.aab
           tracks: internal
