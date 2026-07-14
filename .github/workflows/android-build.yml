@@ -54,9 +54,10 @@ jobs:
 
       - name: Sign AAB
         run: |
-          AAB=$(find output -name "*.aab" | head -1)
-          zip --delete "$AAB" 'META-INF/*' || true
-          jarsigner \
+          AAB=$(find output -name "*.aab" -type f | head -1)
+          echo "Signing: $AAB"
+          zip -d "$AAB" 'META-INF/*' || true
+          "$JAVA_HOME/bin/jarsigner" \
             -verbose \
             -sigalg SHA256withRSA \
             -digestalg SHA-256 \
@@ -65,6 +66,7 @@ jobs:
             -keypass "$KEY_PASSWORD" \
             "$AAB" \
             "$KEY_ALIAS"
+          "$JAVA_HOME/bin/jarsigner" -verify -verbose "$AAB"
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
