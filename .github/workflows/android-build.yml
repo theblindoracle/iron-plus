@@ -42,7 +42,7 @@ jobs:
       - name: Decode keystore
         run: echo "$KEYSTORE_BASE64" | base64 -d > release.keystore
 
-      - name: Publish signed AAB
+      - name: Publish AAB
         run: |
           dotnet publish IronPlus/IronPlus.csproj \
             -c Release \
@@ -50,12 +50,20 @@ jobs:
             -o output \
             /p:AndroidPackageFormat=aab \
             /p:ApplicationVersion=${{ github.run_number }} \
-            /p:ApplicationDisplayVersion=${{ steps.version.outputs.display_version }} \
-            /p:AndroidKeyStore=true \
-            /p:AndroidSigningKeyStore=$(pwd)/release.keystore \
-            /p:AndroidSigningKeyAlias=$KEY_ALIAS \
-            /p:AndroidSigningKeyPass=$KEY_PASSWORD \
-            /p:AndroidSigningStorePass=$KEYSTORE_PASSWORD
+            /p:ApplicationDisplayVersion=${{ steps.version.outputs.display_version }}
+
+      - name: Sign AAB
+        run: |
+          AAB=$(find output -name "*.aab" | head -1)
+          jarsigner \
+            -verbose \
+            -sigalg SHA256withRSA \
+            -digestalg SHA-256 \
+            -keystore release.keystore \
+            -storepass "$KEYSTORE_PASSWORD" \
+            -keypass "$KEY_PASSWORD" \
+            "$AAB" \
+            "$KEY_ALIAS"
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
