@@ -55,6 +55,7 @@ jobs:
       - name: Sign AAB
         run: |
           AAB=$(find output -name "*.aab" | head -1)
+          zip --delete "$AAB" 'META-INF/*' || true
           jarsigner \
             -verbose \
             -sigalg SHA256withRSA \
