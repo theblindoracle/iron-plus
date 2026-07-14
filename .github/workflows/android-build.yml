@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-android:
-    runs-on: macos-15  
+    runs-on: macos-15
 
     env:
       SYNCFUSION_KEY: ${{ secrets.SYNCFUSION_KEY }}
@@ -33,38 +33,24 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore IronPlus/IronPlus.csproj
 
-      - name: Build Android app
-        run: dotnet build IronPlus/IronPlus.csproj -c Release -f:net10.0-android /p:AndroidPackageFormat=aab
+      - name: Decode keystore
+        run: echo "$KEYSTORE_BASE64" | base64 -d > release.keystore
 
-      - name: Publish AAB
-        run: dotnet publish IronPlus/IronPlus.csproj -c Release -f:net10.0-android -o output /p:AndroidPackageFormat=aab
-
-      - name: List output directory
-        run: find output -type f
-
-      - name: Download bundletool
+      - name: Publish signed AAB
         run: |
-          curl -L -o bundletool.jar https://github.com/google/bundletool/releases/download/1.15.0/bundletool-all-1.15.0.jar
+          dotnet publish IronPlus/IronPlus.csproj \
+            -c Release \
+            -f net10.0-android \
+            -o output \
+            /p:AndroidPackageFormat=aab \
+            /p:AndroidKeyStore=true \
+            /p:AndroidSigningKeyStore=$(pwd)/release.keystore \
+            /p:AndroidSigningKeyAlias=$KEY_ALIAS \
+            /p:AndroidSigningKeyPass=$KEY_PASSWORD \
+            /p:AndroidSigningStorePass=$KEYSTORE_PASSWORD
 
-      - name: Convert base64 to jks
-        run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > release.keystore
-
-      - name: Convert AAB to signed APK
-        run: |
-          java -jar bundletool.jar build-apks \
-            --bundle=output/com.ironplusdev.ironplus.aab \
-            --output=output/app.apks \
-            --mode=universal \
-            --overwrite \
-            --ks=release.keystore \
-            --ks-key-alias=$KEY_ALIAS \
-            --ks-pass=pass:$KEYSTORE_PASSWORD \
-            --key-pass=pass:$KEY_PASSWORD
-          unzip output/app.apks -d output/apks
-
-      - name: Upload build artifact
+      - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-app
-          path: output
+          path: output/com.ironplusdev.ironplus.aab

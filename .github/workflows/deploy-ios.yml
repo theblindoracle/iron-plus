@@ -1,88 +1,42 @@
 name: Deploy iOS
 
 on:
-  push:
-    tags: ['v*.*.*']
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy from'
+        default: 'main'
+        required: false
 
 jobs:
-  build:
-    runs-on: macos-26
-
-    env:
-      SYNCFUSION_KEY: ${{ secrets.SYNCFUSION_KEY }}
-      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install the Apple certificate and provisioning profile
-        env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-
-          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
-          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode --output $PP_PATH
-
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '10.0.x'
-
-      - name: Install .NET MAUI
-        shell: bash
-        run: |
-          dotnet nuget locals all --clear
-          dotnet workload install maui
-          dotnet workload install ios maccatalyst tvos macos maui
-
-      - name: Restore nuget packages
-        run: dotnet restore iron-plus.sln
-
-      - name: Build iOS App
-        shell: bash
-        run: |
-          dotnet publish IronPlus/IronPlus.csproj \
-            -f net10.0-ios \
-            -c Release \
-            -r ios-arm64 \
-            /p:CodesignKey="${{ secrets.SIGNING_IDENTITY }}" \
-            /p:CodesignProvision="${{ secrets.PROVISIONING_PROFILE_UUID }}"
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-app
-          path: IronPlus/bin/Release/net10.0-ios/ios-arm64/publish/*.ipa
-
   deploy:
     runs-on: macos-latest
-    needs: build
+    permissions:
+      contents: read
+      actions: read
 
     steps:
+      - name: Get latest successful build run ID
+        id: get-run-id
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_ID=$(gh api \
+            "repos/${{ github.repository }}/actions/workflows/macos-build.yml/runs?status=success&branch=${{ inputs.branch }}&per_page=1" \
+            --jq '.workflow_runs[0].id')
+          if [ -z "$RUN_ID" ] || [ "$RUN_ID" = "null" ]; then
+            echo "No successful macos-build run found for branch '${{ inputs.branch }}'"
+            exit 1
+          fi
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: ios-app
           path: artifacts/
+          run-id: ${{ steps.get-run-id.outputs.run_id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Find IPA path
         id: find-ipa
