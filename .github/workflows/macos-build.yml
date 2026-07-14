@@ -69,6 +69,12 @@ jobs:
         run: |
           dotnet restore iron-plus.sln
         
+      - name: Set build version
+        id: version
+        run: |
+          BASE=$(grep -oP '(?<=<ApplicationDisplayVersion>)[^<]+' IronPlus/IronPlus.csproj)
+          echo "display_version=${BASE}.${{ github.run_number }}" >> $GITHUB_OUTPUT
+
         # https://docs.microsoft.com/en-us/dotnet/maui/ios/deployment/overview
       - name: Build iOS App
         shell: bash
@@ -77,6 +83,8 @@ jobs:
             -f net10.0-ios \
             -c Release \
             -r ios-arm64 \
+            /p:ApplicationVersion=${{ github.run_number }} \
+            /p:ApplicationDisplayVersion=${{ steps.version.outputs.display_version }} \
             /p:CodesignKey="${{ secrets.SIGNING_IDENTITY }}" \
             /p:CodesignProvision="${{ secrets.PROVISIONING_PROFILE_UUID }}"
 
