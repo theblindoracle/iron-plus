@@ -55,6 +55,7 @@ jobs:
 
       - name: Sign AAB
         run: |
+          rm -f output/*-Signed.aab
           AAB=$(find output -name "*.aab" -type f | head -1)
           echo "Signing: $AAB"
           zip -d "$AAB" 'META-INF/*' || true
