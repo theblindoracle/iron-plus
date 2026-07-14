@@ -36,7 +36,7 @@ jobs:
       - name: Set build version
         id: version
         run: |
-          BASE=$(grep -oP '(?<=<ApplicationDisplayVersion>)[^<]+' IronPlus/IronPlus.csproj)
+          BASE=$(sed -n 's|.*<ApplicationDisplayVersion>\([^<]*\)</ApplicationDisplayVersion>.*|\1|p' IronPlus/IronPlus.csproj)
           echo "display_version=${BASE}.${{ github.run_number }}" >> $GITHUB_OUTPUT
 
       - name: Decode keystore
