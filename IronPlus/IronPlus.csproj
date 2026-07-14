@@ -25,9 +25,10 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">12.2</SupportedOSPlatformVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 
-		<!-- Native AOT for iOS: enables trimming/AOT analyzers on all platforms and AOT compilation on publish -->
+		<!-- IsAotCompatible enables AOT-compatibility analysis on all platforms -->
 		<IsAotCompatible>true</IsAotCompatible>
-		<PublishAot>true</PublishAot>
+		<!-- PublishAot is iOS-only; Android uses Mono AOT via the MAUI toolchain -->
+		<PublishAot Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">true</PublishAot>
 	</PropertyGroup>
 
 	<ItemGroup>
