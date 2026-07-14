@@ -32,12 +32,13 @@ jobs:
           echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: android-app
-          path: output/
-          run-id: ${{ steps.get-run-id.outputs.run_id }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh run download ${{ steps.get-run-id.outputs.run_id }} \
+            --repo ${{ github.repository }} \
+            --name android-app \
+            --dir output/
 
       - name: Authenticate to Google Cloud
         id: auth
