@@ -49,6 +49,7 @@ jobs:
             -f net10.0-android \
             -o output \
             /p:AndroidPackageFormat=aab \
+            /p:AndroidKeyStore=false \
             /p:ApplicationVersion=${{ github.run_number }} \
             /p:ApplicationDisplayVersion=${{ steps.version.outputs.display_version }}
 
