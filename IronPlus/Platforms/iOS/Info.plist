@@ -23,11 +23,7 @@
 	<string>com.napesdotnet.ironplus</string>
 	<key>CFBundleName</key>
 	<string>IronPlus</string>
-	<key>CFBundleVersion</key>
-	<string>999</string>
-	<key>CFBundleShortVersionString</key>
-	<string>9.9</string>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
+<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>LSMinimumSystemVersion</key>
 	<string>11.0</string>
