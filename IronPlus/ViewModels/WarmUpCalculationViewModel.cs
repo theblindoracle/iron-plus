@@ -221,14 +221,14 @@ namespace IronPlus.ViewModels
             {
                 TopSetWeight.Validations.Add(new IsWeightWithinRangeKilogramsRule<double>
                 {
-                    ValidationMessage = "Weight must be between 20 and 501."
+                    ValidationMessage = "Weight must be between 20 and 510."
                 });
             }
             else
             {
                 TopSetWeight.Validations.Add(new IsWeightWithinRangePoundsRule<double>
                 {
-                    ValidationMessage = "Weight must be between 45 and 1104."
+                    ValidationMessage = "Weight must be between 45 and 1125."
                 });
             }
         }

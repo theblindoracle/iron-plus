@@ -16,7 +16,7 @@ namespace IronPlus.Validation
 
             var weight = value as double?;
 
-            if (weight > 501)
+            if (weight > 510)
             {
                 return false;
             }
