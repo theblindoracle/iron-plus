@@ -12,9 +12,13 @@ namespace IronPlus.ViewModels
         {
             Title = "About";
 
-            Header1 = "About the Developer:";
+            Header1 = "About the Developer";
             Body1 =
-                "My name is Travis Napier. I am a software developer and a I've been powerlifting since 2019. I started writing this app for myself as a personal project. I later found that this could be helpful for other lifters as well. This app is made by powerlifters, for powerlifters. If you have anything that you would like to see added, reach out to me at support@napes.dev or on Instagram, @napes.lifts. ";
+                "My name is Travis Napier. I'm a software developer, and I've been competing in powerlifting since 2019. I built IronPlus as a personal project to solve problems I was running into in my own training.";
+            Body2 =
+                "As other lifters found it useful too, it grew from a personal tool into something worth sharing. IronPlus is built by a powerlifter, for powerlifters — every calculator comes from a real need in the gym, not guesswork.";
+            Body3 =
+                "Have a feature request or found a bug? I'd love to hear from you — reach out at support@napes.dev or on Instagram, @napes.lifts.";
         }
 
         string header1;
@@ -29,6 +33,20 @@ namespace IronPlus.ViewModels
         {
             get => body1;
             set => SetProperty(ref body1, value);
+        }
+
+        string body2;
+        public string Body2
+        {
+            get => body2;
+            set => SetProperty(ref body2, value);
+        }
+
+        string body3;
+        public string Body3
+        {
+            get => body3;
+            set => SetProperty(ref body3, value);
         }
 
         public string Version
