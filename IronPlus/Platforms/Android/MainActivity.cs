@@ -27,6 +27,10 @@ public class MainActivity : MauiAppCompatActivity
             UserDialogs.Init(this);
             ViewModelLocator.RegisterSingleton<IPlatformService, PlatformService>();
 
+            // Sync the status bar icon/text color with the current theme now that
+            // IPlatformService and Platform.CurrentActivity are both available.
+            ViewModelLocator.Resolve<IThemeService>().UpdateStatusBar(ViewModelLocator.Resolve<ISettingsService>().ThemeOption);
+
             // Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             // global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             // Xamarin.Essentials.Platform.Init(this, savedInstanceState);

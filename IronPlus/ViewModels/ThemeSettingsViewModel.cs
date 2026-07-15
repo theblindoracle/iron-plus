@@ -7,8 +7,12 @@ namespace IronPlus.ViewModels
 {
     public class ThemeSettingsViewModel : BaseViewModel
     {
-        public ThemeSettingsViewModel(IDialogService dialogService, ISettingsService settingsService) : base(dialogService, settingsService)
+        readonly IThemeService themeService;
+
+        public ThemeSettingsViewModel(IDialogService dialogService, ISettingsService settingsService, IThemeService themeService) : base(dialogService, settingsService)
         {
+            this.themeService = themeService;
+
             Title = "Theme Settings";
             SelectedTheme = settingsService.ThemeOption;
         }
@@ -29,6 +33,7 @@ namespace IronPlus.ViewModels
 
             settingsService.ThemeOption = SelectedTheme;
             Application.Current.UserAppTheme = SelectedTheme;
+            themeService.UpdateStatusBar(SelectedTheme);
         });
     }
 }

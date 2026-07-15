@@ -1,30 +1,19 @@
-﻿using System;
-using System.Drawing;
-using Android.OS;
+﻿using AndroidX.Core.View;
 using IronPlus.Interfaces;
-using Microsoft.Maui.Platform;
 using Color = Microsoft.Maui.Graphics.Color;
 
 namespace IronPlus.Droid.Services
 {
     public class PlatformService : IPlatformService
     {
+        // The status bar background is always transparent under the edge-to-edge
+        // enforcement mandated at targetSdkVersion 36, so backgroundColor is unused
+        // here; only the icon/text appearance can still be controlled.
         public void UpdateStatusBar(Color? backgroundColor, bool darkStatusBarTint)
         {
-            if (Build.VERSION.SdkInt < BuildVersionCodes.Lollipop)
-                return;
-
-            var activity = Platform.CurrentActivity;
-            var window = activity.Window;
-            window.AddFlags(Android.Views.WindowManagerFlags.DrawsSystemBarBackgrounds);
-            window.ClearFlags(Android.Views.WindowManagerFlags.TranslucentStatus);
-            window.SetStatusBarColor(backgroundColor.ToPlatform());
-
-            if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.M)
-            {
-                var flag = (Android.Views.StatusBarVisibility)Android.Views.SystemUiFlags.LightStatusBar;
-                window.DecorView.SystemUiVisibility = darkStatusBarTint ? flag : 0;
-            }
+            var window = Platform.CurrentActivity.Window;
+            var insetsController = WindowCompat.GetInsetsController(window, window.DecorView);
+            insetsController.AppearanceLightStatusBars = darkStatusBarTint;
         }
     }
 }
