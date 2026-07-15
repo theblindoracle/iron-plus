@@ -9,13 +9,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 dotnet restore IronPlus/IronPlus.csproj
 
 # Build for Android
-dotnet build IronPlus/IronPlus.csproj -c Release -f:net8.0-android
+dotnet build IronPlus/IronPlus.csproj -c Release -f:net10.0-android
 
 # Build for iOS (simulator)
-dotnet build IronPlus/IronPlus.csproj -f net8.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true
-
-# Build for macOS
-dotnet build IronPlus/IronPlus.csproj -f net8.0-maccatalyst -c Debug
+dotnet build IronPlus/IronPlus.csproj -f net10.0-ios -c Debug /p:packageApp=false /p:buildForSimulator=true
 
 # Clean bin/obj directories
 ./scripts/clean.sh
@@ -23,7 +20,7 @@ dotnet build IronPlus/IronPlus.csproj -f net8.0-maccatalyst -c Debug
 
 ## Architecture
 
-IronPlus is a .NET 8 MAUI cross-platform strength training calculator app (iOS, Android, macOS, Windows).
+IronPlus is a .NET 10 MAUI cross-platform strength training calculator app (iOS, Android).
 
 ### MVVM Pattern with TinyIoC
 
@@ -82,7 +79,20 @@ Custom validation framework in `/Validation/`:
 
 ## Target Frameworks
 
-- `net8.0-android` (API 21+)
-- `net8.0-ios` (iOS 11.0+)
-- `net8.0-maccatalyst` (macOS 13.1+)
-- `net8.0-windows10.0.19041.0`
+- `net10.0-android` (API 21+)
+- `net10.0-ios` (iOS 12.2+)
+
+The `ApplicationId` differs per platform (see `IronPlus.csproj`): `com.ironplusdev.ironplus` on Android, `com.napesdotnet.ironplus` on iOS.
+
+## CI/CD
+
+GitHub Actions workflows are split into build (automatic) and deploy (manual) pairs, so the artifact that ships is exactly what CI built and verified — deploys never rebuild:
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `.github/workflows/android-build.yml` | push to `main`, PRs | Publishes and signs the AAB, uploads as `android-app` artifact |
+| `.github/workflows/deploy-android.yml` | manual (`workflow_dispatch`, branch input) | Downloads the latest successful `android-app` build artifact and uploads to Google Play (internal track) via Workload Identity Federation |
+| `.github/workflows/macos-build.yml` | push/PR to `main`, manual | Builds and signs the iOS IPA, uploads as `ios-app` artifact |
+| `.github/workflows/deploy-ios.yml` | manual (`workflow_dispatch`, branch input) | Downloads the latest successful `ios-app` build artifact and uploads to TestFlight |
+
+Required secrets/variables for these workflows are tracked in `TODO.md`. See `specs/separate-build-deploy-workflows.md` for the rationale behind the build/deploy split.
