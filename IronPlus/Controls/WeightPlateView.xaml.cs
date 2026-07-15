@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.Controls.Shapes;
+using Microsoft.Maui.Layouts;
 using BindableProperty = Microsoft.Maui.Controls.BindableProperty;
 using ColumnDefinition = Microsoft.Maui.Controls.ColumnDefinition;
 using ContentView = Microsoft.Maui.Controls.ContentView;
@@ -355,16 +356,23 @@ namespace IronPlus.Controls
                 textLabel = new Label()
                 {
                     TextColor = Colors.Black,
-                    VerticalOptions = LayoutOptions.CenterAndExpand,
                     Text = "Collar",
                     FontSize = 18,
                     HorizontalTextAlignment = TextAlignment.Center,
                     Style = labelStyle,
                     LineBreakMode = LineBreakMode.NoWrap,
-                    WidthRequest = collarTextWidth,
                     Rotation = -90
                 };
 
+                // AbsoluteLayout doesn't clamp a child's measured size to its own
+                // bounds like Border/Grid do, so the label can be measured at its
+                // full un-rotated width (collarTextWidth) even though that's wider
+                // than the (rotated) plateWidth it needs to visually fit inside.
+                AbsoluteLayout.SetLayoutBounds(textLabel, new Rect(0.5, 0.5, collarTextWidth, AbsoluteLayout.AutoSize));
+                AbsoluteLayout.SetLayoutFlags(textLabel, AbsoluteLayoutFlags.PositionProportional);
+
+                var absoluteLayout = new AbsoluteLayout();
+                absoluteLayout.Children.Add(textLabel);
 
                 HorizontalOptions = LayoutOptions.Start;
                 VerticalOptions = LayoutOptions.Center;
@@ -377,19 +385,9 @@ namespace IronPlus.Controls
                 Padding = 0;
                 HeightRequest = collar.Height;
                 WidthRequest = plateWidth;
-                Content = textLabel;
+                Content = absoluteLayout;
 
                 this.SetAppThemeColor(BackgroundColorProperty, collar.BackgroundColorLight, collar.BackgroundColorDark);
-
-                PropertyChanged += Grid_PropertyChanged;
-            }
-
-            private void Grid_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-            {
-                if (e.PropertyName == WidthProperty.PropertyName)
-                {
-                    textLabel.TranslationX = (plateWidth - Width) / 2;
-                }
             }
         }
         class Plate
