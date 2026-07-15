@@ -48,7 +48,7 @@
                 Hint="Weight in LB"
                 Style="{StaticResource BaseTextInputLayoutStyle}">
                 <numericInput:SfNumericEntry
-                    CustomFormat="0"
+                    CustomFormat="0.##"
                     ShowClearButton="False"
                     SelectAllOnFocus="True"
                     Style="{StaticResource NumericInputStyle}"
@@ -69,7 +69,7 @@
                 Hint="Weight in KG"
                 Style="{StaticResource BaseTextInputLayoutStyle}">
                 <numericInput:SfNumericEntry
-                    CustomFormat="0"
+                    CustomFormat="0.##"
                     ShowClearButton="False"
                     SelectAllOnFocus="True"
                     Style="{StaticResource NumericInputStyle}"

@@ -64,7 +64,7 @@
                         HasError="{Binding TopSetWeight.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{DynamicResource BaseTextInputLayoutStyle}">
                         <numericInput:SfNumericEntry
-                            CustomFormat="n"
+                            CustomFormat="0.##"
                             Minimum="1"
                             ShowClearButton="False"
                             SelectAllOnFocus="True"

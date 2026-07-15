@@ -94,7 +94,7 @@
                             <numericInput:SfNumericEntry
                                 SelectAllOnFocus="True"
                                 ShowClearButton="False"
-                                CustomFormat="{Binding ConvertFromSuffix, StringFormat='#.0 {0}'}"
+                                CustomFormat="{Binding ConvertFromSuffix, StringFormat='#.## {0}'}"
                                 Style="{DynamicResource NumericInputStyle}"
                                 Value="{Binding ValueToConvert.Value}">
                                 <numericInput:SfNumericEntry.Behaviors>
