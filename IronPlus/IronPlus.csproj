@@ -37,7 +37,7 @@
 		<MauiIcon Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'" Include="Resources\AppIcon\appicon.svg" Color="#262626" ForegroundScale="0.8" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) != 'android'" Include="Resources\Splash\iron_plus_splash.svg" Color="#262626"/>
+		<MauiSplashScreen Include="Resources\Splash\iron_plus_splash.svg" Color="#262626"/>
 		<MauiSplashScreen Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'" Include="Resources\Splash\iron_plus_splash.svg" Color="#262626" BaseSize="180,152"/>
 
 		<!-- Images -->
