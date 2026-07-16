@@ -70,8 +70,21 @@ jobs:
             "$KEY_ALIAS"
           "$JAVA_HOME/bin/jarsigner" -verify -verbose "$AAB"
 
+      - name: Package native debug symbols
+        run: |
+          SYMS_DIR=IronPlus/obj/Release/net10.0-android/app_shared_libraries
+          STAGING=$(mktemp -d)
+          for abi_dir in "$SYMS_DIR"/*/; do
+            abi=$(basename "$abi_dir")
+            mkdir -p "$STAGING/$abi"
+            cp "$abi_dir/libxamarin-app.dbg.so" "$STAGING/$abi/libxamarin-app.so"
+          done
+          (cd "$STAGING" && zip -r "$GITHUB_WORKSPACE/output/native-debug-symbols.zip" .)
+
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-app
-          path: output/*.aab
+          path: |
+            output/*.aab
+            output/native-debug-symbols.zip

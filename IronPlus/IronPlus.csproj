@@ -82,6 +82,11 @@
 		<SentrySetCommits>true</SentrySetCommits>
 	</PropertyGroup>
 
+	<!-- Enable R8 so Play Console gets a mapping.txt for deobfuscating Java/Kotlin stack traces -->
+	<PropertyGroup Condition="'$(Configuration)' == 'Release' AND $([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+		<AndroidLinkTool>r8</AndroidLinkTool>
+	</PropertyGroup>
+
 	<!-- Import local secrets if present (gitignored) -->
 	<Import Project="$(MSBuildProjectDirectory)/../secrets.local.props"
 	        Condition="Exists('$(MSBuildProjectDirectory)/../secrets.local.props')" />

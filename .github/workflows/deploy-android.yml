@@ -53,4 +53,5 @@ jobs:
           serviceAccountJson: ${{ steps.auth.outputs.credentials_file_path }}
           packageName: com.ironplusdev.ironplus
           releaseFiles: output/*.aab
+          debugSymbols: output/native-debug-symbols.zip
           tracks: internal
