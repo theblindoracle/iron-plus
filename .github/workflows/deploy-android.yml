@@ -11,6 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    if: github.actor == 'theblindoracle'
     permissions:
       contents: read
       id-token: write
